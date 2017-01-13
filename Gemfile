@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'spree', github: 'spree/spree', branch: 'master'
+branch = ENV.fetch('SOLIDUS_BRANCH', 'v1.2')
+gem "solidus", github: "solidusio/solidus", branch: branch
 
 gemspec
