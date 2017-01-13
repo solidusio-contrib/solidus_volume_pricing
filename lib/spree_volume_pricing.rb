@@ -1,5 +1,0 @@
-require 'sass/rails'
-require 'spree/core'
-require 'spree_volume_pricing/engine'
-require 'spree_volume_pricing/version'
-require 'coffee_script'

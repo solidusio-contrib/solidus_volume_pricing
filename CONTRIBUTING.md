@@ -77,5 +77,5 @@ Some things that will increase the chance that your pull request is accepted, ta
 And in case we didn't emphasize it enough: **we love tests!**
 
 [1]: http://www.fsf.org/licensing/essays/free-sw.html
-[2]: https://github.com/spree-contrib/spree_volume_pricing/issues
-[3]: https://github.com/spree-contrib/spree_volume_pricing/tree/master/config/locales
+[2]: https://github.com/solidusio-contrib/solidus_volume_pricing/issues
+[3]: https://github.com/solidusio-contrib/solidus_volume_pricing/tree/master/config/locales

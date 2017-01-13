@@ -1,19 +1,19 @@
 lib = File.expand_path('../lib/', __FILE__)
 $LOAD_PATH.unshift lib unless $LOAD_PATH.include?(lib)
 
-require 'spree_volume_pricing/version'
+require 'solidus_volume_pricing/version'
 
 Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
-  s.name        = 'spree_volume_pricing'
-  s.version     = SpreeVolumePricing.version
+  s.name        = 'solidus_volume_pricing'
+  s.version     = SolidusVolumePricing.version
   s.summary     = 'Allow prices to be configured in quantity ranges for each variant'
   s.description = s.summary
   s.required_ruby_version = '>= 2.2.3'
 
   s.author       = 'Sean Schofield'
   s.email        = 'sean@railsdog.com'
-  s.homepage     = 'https://github.com/spree-contrib/spree_volume_pricing'
+  s.homepage     = 'https://github.com/solidusio-contrib/solidus_volume_pricing'
   s.license      = 'BSD-3'
 
   s.files        = `git ls-files`.split("\n")

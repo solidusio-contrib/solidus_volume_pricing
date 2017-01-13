@@ -1,9 +1,9 @@
 # Volume Pricing
 
-[![Build Status](https://travis-ci.org/spree-contrib/spree_volume_pricing.svg?branch=3-0-stable)](https://travis-ci.org/spree-contrib/spree_volume_pricing)
-[![Code Climate](https://codeclimate.com/github/spree-contrib/spree_volume_pricing/badges/gpa.svg)](https://codeclimate.com/github/spree-contrib/spree_volume_pricing)
+[![Build Status](https://travis-ci.org/solidusio-contrib/solidus_volume_pricing.svg?branch=3-0-stable)](https://travis-ci.org/solidusio-contrib/solidus_volume_pricing)
+[![Code Climate](https://codeclimate.com/github/solidusio-contrib/solidus_volume_pricing/badges/gpa.svg)](https://codeclimate.com/github/solidusio-contrib/solidus_volume_pricing)
 
-Volume Pricing is an extension to Spree (a complete open source commerce solution for Ruby on Rails) that uses predefined ranges of quantities to determine the price for a particular product variant.  For instance, this allows you to set a price for quantities between 1-10, another price for quantities between (10-100) and another for quantities of 100 or more.  If no volume price is defined for a variant, then the standard price is used.
+Volume Pricing is an extension to Solidus that uses predefined ranges of quantities to determine the price for a particular product variant.  For instance, this allows you to set a price for quantities between 1-10, another price for quantities between (10-100) and another for quantities of 100 or more.  If no volume price is defined for a variant, then the standard price is used.
 
 Each VolumePrice contains the following values:
 
@@ -20,7 +20,7 @@ Each VolumePrice contains the following values:
 
 The extension contains a rails generator that will add the necessary migrations and give you the option to run the migrations, or run them later, perhaps after installing other extensions. Once you have bundled the extension, run the install generator and its ready to use.
 
-      rails generate spree_volume_pricing:install
+      rails generate solidus_volume_pricing:install
 
 Easily add volume pricing display to your product page:
 
@@ -106,7 +106,7 @@ See corresponding [contributing guidelines][1].
 
 Copyright (c) 2009-2015 [Spree Commerce][2] and [contributors][3], released under the [New BSD License][4]
 
-[1]: https://github.com/spree-contrib/spree_volume_pricing/blob/master/CONTRIBUTING.md
+[1]: https://github.com/solidusio-contrib/solidus_volume_pricing/blob/master/CONTRIBUTING.md
 [2]: https://github.com/spree
-[3]: https://github.com/spree-contrib/spree_volume_pricing/graphs/contributors
-[4]: https://github.com/spree-contrib/spree_volume_pricing/blob/master/LICENSE.md
+[3]: https://github.com/solidusio-contrib/solidus_volume_pricing/graphs/contributors
+[4]: https://github.com/solidusio-contrib/solidus_volume_pricing/blob/master/LICENSE.md

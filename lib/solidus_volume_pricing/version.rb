@@ -1,7 +1,7 @@
-module SpreeVolumePricing
+module SolidusVolumePricing
   module_function
 
-  # Returns the version of the currently loaded SpreeVolumePricing as a
+  # Returns the version of the currently loaded SolidusVolumePricing as a
   # <tt>Gem::Version</tt>.
   def version
     Gem::Version.new VERSION::STRING
