@@ -11,25 +11,28 @@ class Spree::VolumePrice < ActiveRecord::Base
               in: %w(price dollar percent),
               message: I18n.t(:'activerecord.errors.messages.is_not_a_valid_volume_price_type', value: self)
             }
-  validates :range,
-            format: {
-              with: /\(?[0-9]+(?:\.{2,3}[0-9]+|\+\)?)/,
-              message: I18n.t(:'activerecord.errors.messages.must_be_in_format')
-            }
 
-  OPEN_ENDED = /\(?[0-9]+\+\)?/
+  validate :range_format
 
   def include?(quantity)
-    if open_ended?
-      bound = /\d+/.match(range)[0].to_i
-      return quantity >= bound
-    else
-      range.to_range === quantity
-    end
+    range_from_string.include?(quantity)
   end
 
   # indicates whether or not the range is a true Ruby range or an open ended range with no upper bound
   def open_ended?
-    OPEN_ENDED =~ range
+    range_from_string.end == Float::INFINITY
+  end
+
+  private
+
+  def range_format
+    if !(SolidusVolumePricing::RangeFromString::RANGE_FORMAT =~ range ||
+         SolidusVolumePricing::RangeFromString::OPEN_ENDED =~ range)
+      errors.add(:range, :must_be_in_format)
+    end
+  end
+
+  def range_from_string
+    SolidusVolumePricing::RangeFromString.new(range).to_range
   end
 end
