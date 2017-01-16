@@ -18,9 +18,8 @@ class Spree::VolumePrice < ActiveRecord::Base
     range_from_string.include?(quantity)
   end
 
-  # indicates whether or not the range is a true Ruby range or an open ended range with no upper bound
-  def open_ended?
-    range_from_string.end == Float::INFINITY
+  def display_range
+    range.gsub(/\.+/, "-").gsub(/\(|\)/, '')
   end
 
   private
