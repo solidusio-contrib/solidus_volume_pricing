@@ -1,11 +1,12 @@
 module Spree
   module LineItemPriceUpdater
     def set_pricing_attributes
-      super
-
       if quantity_changed?
-        self.price = variant.volume_price(quantity, order.user)
+        options = SolidusVolumePricing::PricingOptions.from_line_item(self)
+        self.money_price = SolidusVolumePricing::Pricer.new(variant).price_for(options)
       end
+
+      super
     end
   end
 end
