@@ -1,5 +1,13 @@
 source 'https://rubygems.org'
 
-gem 'spree', github: 'spree/spree', branch: 'master'
+branch = ENV.fetch('SOLIDUS_BRANCH', 'v1.2')
+gem "solidus", github: "solidusio/solidus", branch: branch
+
+case ENV['DB']
+when 'mysql'
+  gem 'mysql2'
+when 'postgresql'
+  gem 'pg'
+end
 
 gemspec

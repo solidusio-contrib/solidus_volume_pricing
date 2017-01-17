@@ -1,0 +1,6 @@
+require 'sass/rails'
+require 'deface'
+require 'solidus_core'
+require 'solidus_volume_pricing/engine'
+require 'solidus_volume_pricing/version'
+require 'coffee_script'
