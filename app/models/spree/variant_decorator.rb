@@ -27,11 +27,6 @@ Spree::Variant.class_eval do
     end
   end
 
-  # calculates the price based on quantity
-  def volume_price(quantity, user = nil)
-    compute_volume_price_quantities :volume_price, price, quantity, user
-  end
-
   # return percent of earning
   def volume_price_earning_percent(quantity, user = nil)
     compute_volume_price_quantities :volume_price_earning_percent, 0, quantity, user
@@ -65,17 +60,6 @@ Spree::Variant.class_eval do
 
       # No price ranges matched.
       default_price
-    end
-  end
-
-  def compute_volume_price(volume_price)
-    case volume_price.discount_type
-    when 'price'
-      return volume_price.amount
-    when 'dollar'
-      return price - volume_price.amount
-    when 'percent'
-      return price * (1 - volume_price.amount)
     end
   end
 
