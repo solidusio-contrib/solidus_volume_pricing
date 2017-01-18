@@ -15,11 +15,16 @@ RSpec.describe SolidusVolumePricing::Pricer do
     expect(described_class.pricing_options_class).to eq(SolidusVolumePricing::PricingOptions)
   end
 
+  let(:variant) { create(:variant, price: 10) }
+  let(:user) { create(:user) }
+  let(:role) { create(:role) }
+  let(:other_role) { create(:role) }
+
+  before do
+    Spree::Config.volume_pricing_role = role.name
+  end
+
   describe '#price_for' do
-    let(:variant) { create(:variant, price: 10) }
-    let(:role) { create(:role) }
-    let(:other_role) { create(:role) }
-    let(:user) { create(:user) }
     let(:quantity) { 1 }
 
     let(:pricing_options) do
@@ -28,10 +33,6 @@ RSpec.describe SolidusVolumePricing::Pricer do
 
     subject do
       SolidusVolumePricing::Pricer.new(variant).price_for(pricing_options).to_s
-    end
-
-    before do
-      Spree::Config.volume_pricing_role = role.name
     end
 
     context 'discount_type = price' do
@@ -271,6 +272,205 @@ RSpec.describe SolidusVolumePricing::Pricer do
 
         it 'uses the master variant to compute price' do
           is_expected.to eq('$3.50')
+        end
+      end
+    end
+  end
+
+  describe '#earning_amount' do
+    let(:pricing_options) do
+      SolidusVolumePricing::PricingOptions.new(quantity: quantity)
+    end
+
+    subject do
+      SolidusVolumePricing::Pricer.new(variant).earning_amount(pricing_options).to_s
+    end
+
+    context 'discount_type = price' do
+      before do
+        variant.volume_prices.create!(amount: 9, discount_type: 'price', range: '(10+)')
+      end
+
+      context 'when quantity matches range' do
+        let(:quantity) { 10 }
+
+        it 'gives amount earning' do
+          is_expected.to eq('$1.00')
+        end
+
+        context 'when volume_price has role' do
+          before do
+            variant.volume_prices.first.update(role_id: role.id)
+          end
+
+          context 'when user is given' do
+            let(:pricing_options) do
+              SolidusVolumePricing::PricingOptions.new(
+                quantity: quantity,
+                user: user
+              )
+            end
+
+            context 'whose role matches' do
+              before do
+                user.spree_roles << role
+              end
+
+              it 'gives amount earning' do
+                is_expected.to eq('$1.00')
+              end
+            end
+
+            context 'whose role does not match' do
+              before do
+                user.spree_roles << other_role
+              end
+
+              it 'gives zero earning amount' do
+                is_expected.to eq('$0.00')
+              end
+            end
+          end
+
+          context 'when no user is given' do
+            it 'gives zero earning amount' do
+              is_expected.to eq('$0.00')
+            end
+          end
+        end
+      end
+
+      context 'when quantity does not match range' do
+        let(:quantity) { 1 }
+
+        it 'gives zero earning amount' do
+          is_expected.to eq('$0.00')
+        end
+      end
+    end
+
+    context 'discount_type = dollar' do
+      before do
+        variant.volume_prices.create!(amount: 2.5, discount_type: 'dollar', range: '(10+)')
+      end
+
+      context 'when amount matches range' do
+        let(:quantity) { 10 }
+
+        it 'gives amount earning' do
+          is_expected.to eq('$2.50')
+        end
+
+        context 'when volume_price has role' do
+          before do
+            variant.volume_prices.first.update(role_id: role.id)
+          end
+
+          context 'when user is given' do
+            let(:pricing_options) do
+              SolidusVolumePricing::PricingOptions.new(
+                quantity: quantity,
+                user: user
+              )
+            end
+
+            context 'whose role matches' do
+              before do
+                user.spree_roles << role
+              end
+
+              it 'gives amount earning' do
+                is_expected.to eq('$2.50')
+              end
+            end
+
+            context 'whose role does not match' do
+              before do
+                user.spree_roles << other_role
+              end
+
+              it 'gives zero earning amount' do
+                is_expected.to eq('$0.00')
+              end
+            end
+          end
+
+          context 'when no user is given' do
+            it 'gives zero earning amount' do
+              is_expected.to eq('$0.00')
+            end
+          end
+        end
+      end
+
+      context 'when amount does not match range' do
+        let(:quantity) { 1 }
+
+        it 'gives zero earning amount' do
+          is_expected.to eq('$0.00')
+        end
+      end
+    end
+
+    context 'discount_type = percent' do
+      before do
+        variant.volume_prices.create!(amount: 0.75, discount_type: 'percent', range: '(10+)')
+      end
+
+      context 'when amount matches range' do
+        let(:quantity) { 10 }
+
+        it 'gives amount earning' do
+          is_expected.to eq('$7.50')
+        end
+
+        context 'when volume_price has role' do
+          before do
+            variant.volume_prices.first.update(role_id: role.id)
+          end
+
+          context 'when user is given' do
+            let(:pricing_options) do
+              SolidusVolumePricing::PricingOptions.new(
+                quantity: quantity,
+                user: user
+              )
+            end
+
+            context 'whose role matches' do
+              before do
+                user.spree_roles << role
+              end
+
+              it 'gives amount earning' do
+                is_expected.to eq('$7.50')
+              end
+            end
+
+            context 'whose role does not match' do
+              before do
+                user.spree_roles << other_role
+              end
+
+              it 'gives zero earning amount' do
+                is_expected.to eq('$0.00')
+              end
+            end
+          end
+
+          context 'when no user is given' do
+            it 'gives zero earning amount' do
+              is_expected.to eq('$0.00')
+            end
+          end
+        end
+      end
+
+      context 'when amount does not match range' do
+        let(:quantity) { 1 }
+
+        it 'gives zero earning amount' do
+          is_expected.to eq('$0.00')
         end
       end
     end

@@ -12,11 +12,6 @@ Spree::Variant.class_eval do
     compute_volume_price_quantities :volume_price_earning_percent, 0, quantity, user
   end
 
-  # return amount of earning
-  def volume_price_earning_amount(quantity, user = nil)
-    compute_volume_price_quantities :volume_price_earning_amount, 0, quantity, user
-  end
-
   protected
 
   def use_master_variant_volume_pricing?
@@ -52,17 +47,6 @@ Spree::Variant.class_eval do
       return (volume_price.amount * 100 / price).round
     when 'percent'
       return (volume_price.amount * 100).round
-    end
-  end
-
-  def compute_volume_price_earning_amount(volume_price)
-    case volume_price.discount_type
-    when 'price'
-      return price - volume_price.amount
-    when 'dollar'
-      return volume_price.amount
-    when 'percent'
-      return price - (price * (1 - volume_price.amount))
     end
   end
 end
