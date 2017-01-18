@@ -7,26 +7,6 @@ Spree::Variant.class_eval do
       volume_price[:amount].blank? && volume_price[:range].blank?
     }
 
-  def join_volume_prices(user = nil)
-    table = Spree::VolumePrice.arel_table
-
-    if user
-      Spree::VolumePrice.where(
-        (table[:variant_id].eq(id)
-          .or(table[:volume_price_model_id].in(volume_price_models.ids)))
-          .and(table[:role_id].eq(user.resolve_role))
-        )
-        .order(position: :asc)
-    else
-      Spree::VolumePrice.where(
-        (table[:variant_id]
-          .eq(id)
-          .or(table[:volume_price_model_id].in(volume_price_models.ids)))
-          .and(table[:role_id].eq(nil))
-        ).order(position: :asc)
-    end
-  end
-
   # return percent of earning
   def volume_price_earning_percent(quantity, user = nil)
     compute_volume_price_quantities :volume_price_earning_percent, 0, quantity, user
@@ -40,11 +20,11 @@ Spree::Variant.class_eval do
   protected
 
   def use_master_variant_volume_pricing?
-    Spree::Config.use_master_variant_volume_pricing && !(product.master.join_volume_prices.count == 0)
+    Spree::Config.use_master_variant_volume_pricing && !(Spree::VolumePrice.for_variant(product.master).count == 0)
   end
 
   def compute_volume_price_quantities(type, default_price, quantity, user)
-    volume_prices = join_volume_prices user
+    volume_prices = Spree::VolumePrice.for_variant(self, user: user)
     if volume_prices.count == 0
       if use_master_variant_volume_pricing?
         product.master.send(type, quantity, user)

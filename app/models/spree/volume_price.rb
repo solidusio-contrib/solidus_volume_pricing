@@ -14,6 +14,14 @@ class Spree::VolumePrice < ActiveRecord::Base
 
   validate :range_format
 
+  def self.for_variant(variant, user: nil)
+    where(
+      (arel_table[:variant_id].eq(variant.id)
+        .or(arel_table[:volume_price_model_id].in(variant.volume_price_model_ids)))
+        .and(arel_table[:role_id].eq(user.try!(:resolve_role)))
+    ).order(position: :asc)
+  end
+
   def include?(quantity)
     range_from_string.include?(quantity)
   end

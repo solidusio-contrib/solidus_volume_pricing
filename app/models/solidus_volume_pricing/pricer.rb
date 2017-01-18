@@ -32,7 +32,7 @@ module SolidusVolumePricing
     end
 
     def volume_prices
-      variant.join_volume_prices(user)
+      Spree::VolumePrice.for_variant(variant, user: user)
     end
 
     def computed_price

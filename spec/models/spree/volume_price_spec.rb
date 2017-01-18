@@ -10,6 +10,84 @@ RSpec.describe Spree::VolumePrice, type: :model do
     Spree::VolumePrice.new(variant: Spree::Variant.new, amount: 10, discount_type: 'price')
   end
 
+  describe '.for_variant' do
+    let(:user) { nil }
+    let(:variant) { create(:variant) }
+    let!(:volume_prices) { create_list(:volume_price, 2, variant: variant) }
+
+    subject { described_class.for_variant(variant, user: user) }
+
+    context 'if no user is given' do
+      it 'returns all volume prices for given variant that are not related to a specific role' do
+        expect(subject).to eq(volume_prices)
+      end
+    end
+
+    context 'if user is given' do
+      let(:role) do
+        create(:role, name: 'merchant')
+      end
+
+      let(:user) do
+        create(:user)
+      end
+
+      let!(:volume_prices_for_user_role) do
+        create_list(:volume_price, 2, variant: variant, role_id: role.id)
+      end
+
+      before do
+        Spree::Config.volume_pricing_role = role.name
+      end
+
+      context 'whose role matches' do
+        before do
+          expect_any_instance_of(Spree::LegacyUser).to receive(:has_spree_role?) { true }
+        end
+
+        it 'returns all volume prices for given variant that are related to role of user' do
+          expect(subject).to eq(volume_prices_for_user_role)
+        end
+      end
+
+      context 'whose role does not match' do
+        before do
+          expect_any_instance_of(Spree::LegacyUser).to receive(:has_spree_role?) { false }
+        end
+
+        it 'returns all volume prices for given variant that are not related to any particular role' do
+          expect(subject).to eq(volume_prices)
+        end
+      end
+    end
+
+    context 'if volume prices are not related to the variant but to a volume price model' do
+      let(:volume_price_model) do
+        create(:volume_price_model)
+      end
+
+      let!(:volume_prices_from_model) do
+        create_list(:volume_price, 2, volume_price_model: volume_price_model, variant: nil)
+      end
+
+      context 'and these volume prices are also related to the given variant' do
+        let(:variant) do
+          create(:variant, volume_price_models: [volume_price_model])
+        end
+
+        it 'includes these volume prices' do
+          expect(subject).to include(*volume_prices_from_model)
+        end
+      end
+
+      context 'and these volume prices are not related to the given variant' do
+        it 'does not include these volume prices' do
+          expect(subject).to_not include(*volume_prices_from_model)
+        end
+      end
+    end
+  end
+
   describe 'valid range format' do
     it 'requires the presence of a variant' do
       volume_price.variant = nil
