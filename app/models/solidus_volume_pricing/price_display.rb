@@ -12,8 +12,12 @@ module SolidusVolumePricing
       price.to_s
     end
 
-    def earning_string
-      earning.to_s
+    def earning_amount_string
+      earning_amount.to_s
+    end
+
+    def earning_percent_string
+      earning_percent.to_s
     end
 
     private
@@ -22,8 +26,12 @@ module SolidusVolumePricing
       pricer.price_for(options)
     end
 
-    def earning
+    def earning_amount
       pricer.earning_amount(options)
+    end
+
+    def earning_percent
+      pricer.earning_percent(options)
     end
 
     def options

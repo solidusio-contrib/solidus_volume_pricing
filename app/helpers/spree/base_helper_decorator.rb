@@ -4,11 +4,11 @@ Spree::BaseHelper.class_eval do
   end
 
   def display_volume_price_earning_percent(variant, quantity = 1, user = nil)
-    variant.volume_price_earning_percent(quantity, user).round.to_s
+    price_display(variant, quantity: quantity, user: user).earning_percent_string
   end
 
   def display_volume_price_earning_amount(variant, quantity = 1, user = nil)
-    price_display(variant, quantity: quantity, user: user).earning_string
+    price_display(variant, quantity: quantity, user: user).earning_amount_string
   end
 
   private

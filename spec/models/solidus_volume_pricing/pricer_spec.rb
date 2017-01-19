@@ -475,4 +475,203 @@ RSpec.describe SolidusVolumePricing::Pricer do
       end
     end
   end
+
+  describe '#earning_percent' do
+    let(:pricing_options) do
+      SolidusVolumePricing::PricingOptions.new(quantity: quantity)
+    end
+
+    subject do
+      SolidusVolumePricing::Pricer.new(variant).earning_percent(pricing_options)
+    end
+
+    context 'discount_type = price' do
+      before do
+        variant.volume_prices.create!(amount: 9, discount_type: 'price', range: '(10+)')
+      end
+
+      context 'when quantity matches range' do
+        let(:quantity) { 10 }
+
+        it 'gives percent of earning' do
+          is_expected.to eq(10)
+        end
+
+        context 'when volume_price has role' do
+          before do
+            variant.volume_prices.first.update(role_id: role.id)
+          end
+
+          context 'when user is given' do
+            let(:pricing_options) do
+              SolidusVolumePricing::PricingOptions.new(
+                quantity: quantity,
+                user: user
+              )
+            end
+
+            context 'whose role matches' do
+              before do
+                user.spree_roles << role
+              end
+
+              it 'gives percent of earning if role matches' do
+                is_expected.to eq(10)
+              end
+            end
+
+            context 'whose role doesnt match' do
+              before do
+                user.spree_roles << other_role
+              end
+
+              it 'gives zero percent earning' do
+                is_expected.to eq(0)
+              end
+            end
+          end
+
+          context 'when no user is given' do
+            it 'gives zero earning amount' do
+              is_expected.to eq(0)
+            end
+          end
+        end
+      end
+
+      context 'when quantity does not match range' do
+        let(:quantity) { 1 }
+
+        it 'gives zero percent earning' do
+          is_expected.to eq(0)
+        end
+      end
+    end
+
+    context 'discount_type = dollar' do
+      before do
+        variant.volume_prices.create!(amount: 2.5, discount_type: 'dollar', range: '(10+)')
+      end
+
+      context 'when quantity matches range' do
+        let(:quantity) { 10 }
+
+        it 'gives percent of earning' do
+          is_expected.to eq(25)
+        end
+
+        context 'when volume_price has role' do
+          before do
+            variant.volume_prices.first.update(role_id: role.id)
+          end
+
+          context 'when user is given' do
+            let(:pricing_options) do
+              SolidusVolumePricing::PricingOptions.new(
+                quantity: quantity,
+                user: user
+              )
+            end
+
+            context 'whose role matches' do
+              before do
+                user.spree_roles << role
+              end
+
+              it 'gives percent of earning if role matches' do
+                is_expected.to eq(25)
+              end
+            end
+
+            context 'whose role doesnt match' do
+              before do
+                user.spree_roles << other_role
+              end
+
+              it 'gives zero percent earning' do
+                is_expected.to eq(0)
+              end
+            end
+          end
+
+          context 'when no user is given' do
+            it 'gives zero earning amount' do
+              is_expected.to eq(0)
+            end
+          end
+        end
+      end
+
+      context 'when quantity does not match range' do
+        let(:quantity) { 1 }
+
+        it 'gives zero percent earning' do
+          is_expected.to eq(0)
+        end
+      end
+    end
+
+    context 'discount_type = percent' do
+      before do
+        variant.volume_prices.create!(amount: 0.25, discount_type: 'percent', range: '(10+)')
+      end
+
+      context 'when quantity matches range' do
+        let(:quantity) { 10 }
+
+        it 'gives percent of earning' do
+          is_expected.to eq(25)
+        end
+
+        context 'when volume_price has role' do
+          before do
+            variant.volume_prices.first.update(role_id: role.id)
+          end
+
+          context 'when user is given' do
+            let(:pricing_options) do
+              SolidusVolumePricing::PricingOptions.new(
+                quantity: quantity,
+                user: user
+              )
+            end
+
+            context 'whose role matches' do
+              before do
+                user.spree_roles << role
+              end
+
+              it 'gives percent of earning if role matches' do
+                is_expected.to eq(25)
+              end
+            end
+
+            context 'whose role doesnt match' do
+              before do
+                user.spree_roles << other_role
+              end
+
+              it 'gives zero percent earning' do
+                is_expected.to eq(0)
+              end
+            end
+          end
+
+          context 'when no user is given' do
+            it 'gives zero earning amount' do
+              is_expected.to eq(0)
+            end
+          end
+        end
+      end
+
+      context 'when quantity does not match range' do
+        let(:quantity) { 1 }
+
+        it 'gives zero percent earning' do
+          is_expected.to eq(0)
+        end
+      end
+    end
+  end
 end
