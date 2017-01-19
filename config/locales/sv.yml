@@ -13,6 +13,6 @@ sv:
   activerecord:
     errors:
       messages:
-        could_not_conver_to_range: "Det gick inte att konvertera till omfång: %{number}"
+        could_not_convert_to_range: "Det gick inte att konvertera till omfång: %{range_string}"
         is_not_a_valid_volume_price_type: '%{value} är inte en giltligt typ för volympris'
         must_be_in_format: 'måste vara i ett av följande format: (a..b), (a...b), (a+)'

@@ -10,20 +10,6 @@ RSpec.describe Spree::VolumePrice, type: :model do
     @volume_price = Spree::VolumePrice.new(variant: Spree::Variant.new, amount: 10, discount_type: 'price')
   end
 
-  ['1..2', '(1..2)'].each do |range|
-    it "does not interepret a Ruby range of #{range} as being opend ended" do
-      @volume_price.range = range
-      expect(@volume_price).not_to be_open_ended
-    end
-  end
-
-  ['50+', '(50+)'].each do |range|
-    it "properly interpret an open ended range of #{range}" do
-      @volume_price.range = range
-      expect(@volume_price).to be_open_ended
-    end
-  end
-
   describe 'valid range format' do
     it 'requires the presence of a variant' do
       @volume_price.variant = nil
@@ -73,6 +59,27 @@ RSpec.describe Spree::VolumePrice, type: :model do
     it 'does not consider a range of foo to valid' do
       @volume_price.range = 'foo'
       expect(@volume_price).not_to be_valid
+    end
+  end
+
+  describe 'display_range' do
+    let(:volume_price) { Spree::VolumePrice.new(range: range) }
+
+    subject(:display_range) { volume_price.display_range }
+
+    context 'with parens' do
+      let(:range) { '(48+)' }
+      it { is_expected.to eq('48+')}
+    end
+
+    context 'with range dots' do
+      let(:range) { '1..3' }
+      it { is_expected.to eq('1-3')}
+    end
+
+    context 'with range dots and parens' do
+      let(:range) { '(1..3)' }
+      it { is_expected.to eq('1-3')}
     end
   end
 
