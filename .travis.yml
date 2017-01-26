@@ -10,3 +10,8 @@ env:
     - SOLIDUS_BRANCH=v1.3 DB=postgresql
     - SOLIDUS_BRANCH=v1.4 DB=mysql
     - SOLIDUS_BRANCH=v1.4 DB=postgresql
+before_install:
+  - rvm use @global
+  - gem uninstall bundler -x
+  - gem install bundler --version=1.13.7
+  - bundler --version
