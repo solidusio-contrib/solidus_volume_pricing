@@ -27,7 +27,7 @@ class Spree::VolumePrice < ActiveRecord::Base
       )
     ).
     where(role_id: roles).
-    order(position: :asc)
+    order(position: :asc, amount: :asc)
   end
 
   def include?(quantity)
