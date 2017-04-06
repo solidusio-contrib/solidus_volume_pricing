@@ -42,21 +42,29 @@ RSpec.describe Spree::VolumePrice, type: :model do
 
       context 'whose role matches' do
         before do
-          expect_any_instance_of(Spree::LegacyUser).to receive(:has_spree_role?) { true }
+          user.spree_roles = [role]
         end
 
-        it 'returns all volume prices for given variant that are related to role of user' do
-          expect(subject).to eq(volume_prices_for_user_role)
+        it 'returns role specific volume prices' do
+          expect(subject).to include(*volume_prices_for_user_role)
+        end
+
+        it 'returns non-role specific volume prices' do
+          expect(subject).to include(*volume_prices)
         end
       end
 
       context 'whose role does not match' do
         before do
-          expect_any_instance_of(Spree::LegacyUser).to receive(:has_spree_role?) { false }
+          user.spree_roles = []
         end
 
-        it 'returns all volume prices for given variant that are not related to any particular role' do
-          expect(subject).to eq(volume_prices)
+        it 'does not include role specific volume prices' do
+          expect(subject).to_not include(*volume_prices_for_user_role)
+        end
+
+        it 'returns non-role specific volume prices' do
+          expect(subject).to include(*volume_prices)
         end
       end
     end

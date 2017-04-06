@@ -15,11 +15,19 @@ class Spree::VolumePrice < ActiveRecord::Base
   validate :range_format
 
   def self.for_variant(variant, user: nil)
+    roles = [nil]
+    if user
+      roles << user.resolve_role.try!(:id)
+    end
+
     where(
-      (arel_table[:variant_id].eq(variant.id)
-        .or(arel_table[:volume_price_model_id].in(variant.volume_price_model_ids)))
-        .and(arel_table[:role_id].eq(user.try!(:resolve_role)))
-    ).order(position: :asc)
+      arel_table[:variant_id].eq(variant.id).
+      or(
+        arel_table[:volume_price_model_id].in(variant.volume_price_model_ids)
+      )
+    ).
+    where(role_id: roles).
+    order(position: :asc, amount: :asc)
   end
 
   def include?(quantity)
