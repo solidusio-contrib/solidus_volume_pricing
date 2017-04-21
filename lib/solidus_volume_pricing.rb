@@ -1,3 +1,4 @@
+require 'active_support/deprecation'
 require 'sass/rails'
 require 'deface'
 require 'solidus_core'
