@@ -22,6 +22,7 @@ Gem::Specification.new do |s|
   s.requirements << 'none'
 
   s.add_runtime_dependency 'solidus_core', '>= 1.3'
+  s.add_runtime_dependency 'solidus_support'
   s.add_runtime_dependency 'deface', '~> 1.0'
 
   s.add_development_dependency 'sqlite3', '>= 1.3.10'
