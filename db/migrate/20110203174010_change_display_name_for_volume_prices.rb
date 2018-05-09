@@ -1,4 +1,4 @@
-class ChangeDisplayNameForVolumePrices < ActiveRecord::Migration
+class ChangeDisplayNameForVolumePrices < SolidusSupport::Migration[4.2]
   def self.up
     rename_column :volume_prices, :display, :name
   end

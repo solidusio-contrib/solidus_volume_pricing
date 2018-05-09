@@ -1,4 +1,4 @@
-class CreateVolumePrices < ActiveRecord::Migration
+class CreateVolumePrices < SolidusSupport::Migration[4.2]
   def self.up
     create_table :volume_prices do |t|
       t.references :variant
