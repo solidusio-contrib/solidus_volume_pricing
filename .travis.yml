@@ -1,6 +1,6 @@
 language: ruby
 rvm:
-  - 2.3.3
+  - 2.5.1
 sudo: false
 cache: bundler
 only: master
@@ -22,6 +22,4 @@ env:
     - SOLIDUS_BRANCH=master DB=mysql
 before_install:
   - rvm use @global
-  - gem uninstall bundler -x
-  - gem install bundler --version=1.13.7
   - bundler --version
