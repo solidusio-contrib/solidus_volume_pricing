@@ -1,9 +1,8 @@
 language: ruby
 rvm:
   - 2.3.3
-sudo: false
+sudo: required
 cache: bundler
-only: master
 env:
   matrix:
     - SOLIDUS_BRANCH=v2.3 DB=postgres
@@ -18,8 +17,3 @@ env:
     - SOLIDUS_BRANCH=v2.6 DB=mysql
     - SOLIDUS_BRANCH=v2.7 DB=mysql
     - SOLIDUS_BRANCH=master DB=mysql
-before_install:
-  - rvm use @global
-  - gem uninstall bundler -x
-  - gem install bundler --version=1.13.7
-  - bundler --version
