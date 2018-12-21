@@ -5,7 +5,11 @@ en:
     position: Position
     discount_type: Discount Type
     range: Range
+    role: Role
     volume_prices: Volume Prices
+    volume_price_model: Volume Price Model
+    new_volume_price_model: New Volume Price Model
+    volume_price_model_edit: Edit Volume Price Model
     volume_pricing: Volume Pricing
     price_discount: Price Discount
     percent_discount: Percent Discount
