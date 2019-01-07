@@ -6,9 +6,9 @@
   <td>
     <%= error_message_on(f.object, :discount_type) %>
     <%= f.select :discount_type, [
-        ["#{I18n.t('spree.total_price')}", 'price'],
-        ["#{I18n.t('spree.percent_discount')}", 'percent'],
-        ["#{I18n.t('spree.price_discount')}", 'dollar']
+        [I18n.t('spree.total_price'), 'price'],
+        [I18n.t('spree.percent_discount'), 'percent'],
+        [I18n.t('spree.price_discount'), 'dollar']
       ], { include_blank: true }, class: 'select2' %>
   </td>
   <td>
