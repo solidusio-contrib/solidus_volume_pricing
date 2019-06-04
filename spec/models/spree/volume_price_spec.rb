@@ -3,8 +3,13 @@ RSpec.describe Spree::VolumePrice, type: :model do
   it { is_expected.to belong_to(:volume_price_model).touch(true) }
   it { is_expected.to belong_to(:spree_role).class_name('Spree::Role').with_foreign_key('role_id') }
   it { is_expected.to validate_presence_of(:discount_type) }
-  it { is_expected.to validate_inclusion_of(:discount_type).in_array(%w(price dollar percent)) }
   it { is_expected.to validate_presence_of(:amount) }
+  it do
+    is_expected.to \
+      validate_inclusion_of(:discount_type).
+      in_array(%w(price dollar percent)).
+      with_message('shoulda-matchers test string is not a valid Volume Price Type')
+  end
 
   let(:volume_price) do
     Spree::VolumePrice.new(variant: Spree::Variant.new, amount: 10, discount_type: 'price')

@@ -16,7 +16,11 @@ en:
     bulk_discount: Bulk Discount
   activerecord:
     errors:
+      models:
+        spree/volume_price:
+          attributes:
+            discount_type:
+              inclusion: '%{value} is not a valid Volume Price Type'
       messages:
         could_not_convert_to_range: "Couldn't convert to Range: %{range_string}"
-        is_not_a_valid_volume_price_type: '%{value} is not a valid Volume Price Type'
         must_be_in_format: 'must be in one of the following formats: (a..b), (a...b), (a+)'

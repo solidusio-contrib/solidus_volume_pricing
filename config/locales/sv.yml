@@ -12,7 +12,11 @@ sv:
     bulk_discount: Bulk rabatt
   activerecord:
     errors:
+      models:
+        spree/volume_price:
+          attributes:
+            discount_type:
+              inclusion: '%{value} är inte en giltligt typ för volympris'
       messages:
         could_not_convert_to_range: "Det gick inte att konvertera till omfång: %{range_string}"
-        is_not_a_valid_volume_price_type: '%{value} är inte en giltligt typ för volympris'
         must_be_in_format: 'måste vara i ett av följande format: (a..b), (a...b), (a+)'
