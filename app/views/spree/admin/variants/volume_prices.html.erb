@@ -30,8 +30,8 @@
     <tbody id="volume_price_models">
       <%= f.field_container :volume_price_model, class: ['form-group'] do %>
         <%= f.label :volume_price_model_id, I18n.t('spree.volume_price_model') %>
-        <%= f.collection_select(:volume_price_model_ids, Spree::VolumePriceModel.all, :id, :name, { include_blank: I18n.t('spree.match_choices.none') }, { class: 'select2', disabled: (cannot? :edit, Spree::VolumePriceModel) }) %>
-      <%= f.error_message_on :volume_price_model %>
+        <%= f.collection_select(:volume_price_model_ids, Spree::VolumePriceModel.all, :id, :name, { include_blank: I18n.t('spree.match_choices.none') }, { class: 'custom-select', disabled: (cannot? :edit, Spree::VolumePriceModel) }) %>
+        <%= f.error_message_on :volume_price_model %>
       <% end %>
     </tbody>
   </table>
