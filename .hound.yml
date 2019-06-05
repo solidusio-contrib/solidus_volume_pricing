@@ -11,7 +11,7 @@ Style/Documentation:
   Enabled: false
 
 # Neatly aligned code is too swell.
-Style/SingleSpaceBeforeFirstArg:
+Layout/SpaceBeforeFirstArg:
   Enabled: false
 
 # Don't mess with RSpec DSL.
@@ -20,10 +20,10 @@ Style/BlockDelimiters:
     - 'spec/**/*'
 
 # We really like the readability with newline in beginning of classes.
-Style/EmptyLinesAroundBlockBody:
+Layout/EmptyLinesAroundBlockBody:
   Enabled: false
 
-Style/EmptyLinesAroundClassBody:
+Layout/EmptyLinesAroundClassBody:
   Enabled: false
 
 # It say we should use fail over raise.

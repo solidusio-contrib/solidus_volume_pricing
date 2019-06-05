@@ -1,21 +1,14 @@
-<% content_for :page_actions do %>
-  <span id="new_add_volume_price" data-hook>
-    <%= button_link_to Spree.t(:add_volume_price), 'javascript:;', {
-      icon: 'add', :'data-target' => 'tbody#volume_prices', class: 'btn-success spree_add_fields', id: 'add_volume_price' } %>
-  </span>
-<% end %>
-
-<h3><%= Spree.t(:volume_prices) %></h3>
+<h3><%= I18n.t('spree.volume_prices') %></h3>
 <table class="table">
   <thead>
     <tr>
-      <th><%= Spree.t(:name) %></th>
-      <th><%= Spree.t(:discount_type) %></th>
-      <th><%= Spree.t(:range) %></th>
-      <th><%= Spree.t(:amount) %></th>
-      <th><%= Spree.t(:position) %></th>
-      <th><%= Spree.t(:role) %></th>
-      <th><%= Spree.t(:action) %></th>
+      <th><%= I18n.t('spree.name') %></th>
+      <th><%= I18n.t('spree.discount_type') %></th>
+      <th><%= I18n.t('spree.range') %></th>
+      <th><%= I18n.t('spree.amount') %></th>
+      <th><%= I18n.t('spree.position') %></th>
+      <th><%= I18n.t('spree.role') %></th>
+      <th><%= I18n.t('spree.action') %></th>
     </tr>
   </thead>
   <tbody id="volume_prices">
@@ -25,8 +18,8 @@
   </tbody>
   <tbody id="volume_price_models">
     <%= f.field_container :volume_price_model, class: ['form-group'] do %>
-      <%= f.label :volume_price_model_id, Spree.t(:volume_price_model) %>
-      <%= f.collection_select(:volume_price_model_ids, Spree::VolumePriceModel.all, :id, :name, { include_blank: Spree.t('match_choices.none') }, { class: 'select2', disabled: (cannot? :edit, Spree::VolumePriceModel) }) %>
+      <%= f.label :volume_price_model_id, I18n.t('spree.volume_price_model') %>
+      <%= f.collection_select(:volume_price_model_ids, Spree::VolumePriceModel.all, :id, :name, { include_blank: I18n.t('spree.match_choices.none') }, { class: 'custom-select', disabled: (cannot? :edit, Spree::VolumePriceModel) }) %>
     <%= f.error_message_on :volume_price_model %>
     <% end %>
   </tbody>

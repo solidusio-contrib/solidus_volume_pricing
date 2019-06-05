@@ -8,8 +8,7 @@ class Spree::VolumePrice < ActiveRecord::Base
   validates :discount_type,
             presence: true,
             inclusion: {
-              in: %w(price dollar percent),
-              message: I18n.t(:'activerecord.errors.messages.is_not_a_valid_volume_price_type', value: self)
+              in: %w(price dollar percent)
             }
 
   validate :range_format
