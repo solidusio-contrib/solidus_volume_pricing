@@ -1,7 +1,7 @@
 ---
 de:
   spree:
-    add_volume_price: Neuen Staffelpreis
+    add_volume_price: Neuer Staffelpreis
     position: Position
     discount_type:
     range: Bereich
@@ -11,6 +11,13 @@ de:
     percent_discount:
     bulk_discount:
   activerecord:
+    models:
+      spree/volume_price:
+        one: Staffelpreis
+        other: Staffelpreise
+      spree/volume_price_model:
+        one: Staffelpreismodell
+        other: Staffelpreismodelle
     errors:
       models:
         spree/volume_price:

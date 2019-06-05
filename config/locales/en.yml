@@ -16,6 +16,13 @@ en:
     bulk_discount: Bulk Discount
     total_price: Total price
   activerecord:
+    models:
+      spree/volume_price:
+        one: Volume Price
+        other: Volume Prices
+      spree/volume_price_model:
+        one: Volume Price Model
+        other: Volume Price Models
     errors:
       models:
         spree/volume_price:
