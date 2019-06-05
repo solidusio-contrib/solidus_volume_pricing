@@ -5,9 +5,7 @@
 <% admin_breadcrumb(link_to plural_resource_name(Spree::VolumePriceModel), admin_volume_price_models_path) %>
 
 <%= form_for [:admin, @volume_price_model] do |f| %>
-  <fieldset>
-    <%= render partial: 'form', locals: { f: f } %>
-  </fieldset>
+  <%= render partial: 'form', locals: { f: f } %>
 
   <% if can?(:update, @volume_price_model) %>
     <%= render 'spree/admin/shared/edit_resource_links' %>

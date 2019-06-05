@@ -5,7 +5,9 @@
     <%= text_field :volume_price_model, :name, :class => 'form-control' %>
   <% end %>
 
-  <h3><%= I18n.t('spree.volume_prices') %></h3>
+  <fieldset>
+    <legend><%= I18n.t('spree.volume_prices') %></legend>
 
-  <%= render 'spree/admin/volume_prices/table', f: f %>
+    <%= render 'spree/admin/volume_prices/table', f: f %>
+  </fieldset>
 </div>
