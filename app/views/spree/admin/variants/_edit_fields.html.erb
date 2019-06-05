@@ -1,26 +1,6 @@
-<h3><%= I18n.t('spree.volume_prices') %></h3>
-<table class="table">
-  <thead>
-    <tr>
-      <th><%= I18n.t('spree.name') %></th>
-      <th><%= I18n.t('spree.discount_type') %></th>
-      <th><%= I18n.t('spree.range') %></th>
-      <th><%= I18n.t('spree.amount') %></th>
-      <th><%= I18n.t('spree.position') %></th>
-      <th><%= I18n.t('spree.role') %></th>
-      <th><%= I18n.t('spree.action') %></th>
-    </tr>
-  </thead>
-  <tbody id="volume_prices">
-    <%= f.fields_for :volume_prices do |vp_form| %>
-      <%= render partial: 'spree/admin/volume_prices/volume_price_fields', locals: { f: vp_form } %>
-    <% end %>
-  </tbody>
-  <tbody id="volume_price_models">
-    <%= f.field_container :volume_price_model, class: ['form-group'] do %>
-      <%= f.label :volume_price_model_id, I18n.t('spree.volume_price_model') %>
-      <%= f.collection_select(:volume_price_model_ids, Spree::VolumePriceModel.all, :id, :name, { include_blank: I18n.t('spree.match_choices.none') }, { class: 'custom-select', disabled: (cannot? :edit, Spree::VolumePriceModel) }) %>
-    <%= f.error_message_on :volume_price_model %>
-    <% end %>
-  </tbody>
-</table>
+<fieldset>
+  <legend><%= I18n.t('spree.volume_prices') %></legend>
+
+  <%= render 'spree/admin/volume_price_models/select', f: f %>
+  <%= render 'spree/admin/volume_prices/table', f: f %>
+</fieldset>

@@ -1,0 +1,5 @@
+<!-- insert_bottom "[data-hook='admin_settings_sub_tabs']" -->
+
+<% if can?(:admin, Spree::VolumePriceModel) %>
+  <%= tab :volume_price_models, url: spree.admin_volume_price_models_path %>
+<% end %>

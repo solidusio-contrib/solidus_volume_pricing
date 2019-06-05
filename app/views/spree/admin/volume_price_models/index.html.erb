@@ -1,9 +1,9 @@
 <% content_for :page_title do %>
-  <%= "Volume Price Models" %>
+  <%= plural_resource_name(Spree::VolumePriceModel) %>
 <% end %>
 
 <% content_for :page_actions do %>
-  <%= link_to I18n.t('spree.new_volume_price_model'), new_object_url, class: "btn-success", icon: 'add', id: 'admin_new_volume_price_model_link' %>
+  <%= link_to I18n.t('spree.new_volume_price_model'), new_object_url, class: "btn btn-primary", id: 'admin_new_volume_price_model_link' %>
 <% end %>
 
 <% if @volume_price_models.any? %>
@@ -11,8 +11,10 @@
     <%= render 'list' %>
   </div>
 <% else %>
-  <div class="alert alert-info no-objects-found">
-    <%= I18n.t('spree.no_resource_found', resource: "Volume Price Models") %>,
-    <%= link_to I18n.t('spree.add_one'), new_object_url %>!
+  <div class="no-objects-found">
+    <%= I18n.t('spree.no_resource_found', resource: plural_resource_name(Spree::VolumePriceModel)) %>,
+    <% if can? :create, Spree::VolumePriceModel %>
+      <%= link_to I18n.t('spree.create_one'), new_object_url %>
+    <% end %>
   </div>
 <% end %>
