@@ -14,6 +14,7 @@ module SolidusVolumePricing
       Dir.glob(File.join(File.dirname(__FILE__), '../../app/**/*_decorator*.rb')) do |c|
         Rails.configuration.cache_classes ? require(c) : load(c)
       end
+      Spree::BackendConfiguration::CONFIGURATION_TABS << :volume_price_models
     end
 
     config.autoload_paths += %W(#{config.root}/lib)

@@ -15,6 +15,9 @@ en:
     percent_discount: Percent Discount
     bulk_discount: Bulk Discount
     total_price: Total price
+    admin:
+      tab:
+        volume_price_models: Volume Price Models
   activerecord:
     models:
       spree/volume_price:

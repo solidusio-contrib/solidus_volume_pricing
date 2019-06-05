@@ -10,6 +10,9 @@ de:
     price_discount:
     percent_discount:
     bulk_discount:
+    admin:
+      tab:
+        volume_price_models: Staffelpreismodelle
   activerecord:
     models:
       spree/volume_price:
