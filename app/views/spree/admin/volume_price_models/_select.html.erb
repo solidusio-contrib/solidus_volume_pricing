@@ -1,13 +1,17 @@
-<%= f.field_container :volume_price_model, class: ['form-group'] do %>
-  <%= f.label :volume_price_model_id, I18n.t('spree.volume_price_model') %>
-  <%= f.collection_select :volume_price_model_ids,
-    Spree::VolumePriceModel.all, :id, :name,
-    {
-      include_blank: I18n.t('spree.match_choices.none')
-    },
-    {
-      class: 'custom-select',
-      disabled: cannot?(:edit, Spree::VolumePriceModel)
-    } %>
-  <%= f.error_message_on :volume_price_model %>
-<% end %>
+<div class="row">
+  <div class="col-4">
+    <%= f.field_container :volume_price_model, class: ['form-group'] do %>
+      <%= f.label :volume_price_model_id, I18n.t('spree.volume_price_model') %>
+      <%= f.collection_select :volume_price_model_ids,
+        Spree::VolumePriceModel.all, :id, :name,
+        {
+          include_blank: I18n.t('spree.match_choices.none')
+        },
+        {
+          class: 'custom-select fullwidth',
+          disabled: cannot?(:edit, Spree::VolumePriceModel)
+        } %>
+      <%= f.error_message_on :volume_price_model %>
+    <% end %>
+  </div>
+</div>
