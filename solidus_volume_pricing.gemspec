@@ -25,7 +25,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'solidus_backend', '>= 2.0'
   s.add_runtime_dependency 'deface', '~> 1.0'
 
-  s.add_development_dependency 'sqlite3', '~> 1.3.6'
+  s.add_development_dependency 'sqlite3'
   s.add_development_dependency 'capybara', '~> 2.4'
   s.add_development_dependency 'ffaker', '>= 1.32.1'
   s.add_development_dependency 'shoulda-matchers'
@@ -37,4 +37,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'coffee-rails', '~> 4.0'
   s.add_development_dependency 'sass-rails', '~> 5.0'
   s.add_development_dependency 'rubocop', '>= 0.24.1'
+  s.add_development_dependency 'selenium-webdriver'
+  s.add_development_dependency 'solidus_support'
 end
