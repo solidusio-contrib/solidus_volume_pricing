@@ -21,7 +21,7 @@ RSpec.describe SolidusVolumePricing::Pricer do
   let(:other_role) { create(:role) }
 
   before do
-    Spree::Config.volume_pricing_role = role.name
+    stub_spree_preferences(volume_pricing_role: role.name)
   end
 
   describe '#price_for' do
@@ -235,14 +235,8 @@ RSpec.describe SolidusVolumePricing::Pricer do
     context 'when use_master_variant_volume_pricing' do
       let(:master) { variant.product.master }
 
-      around do |example|
-        current_pricing = Spree::Config.use_master_variant_volume_pricing
-        Spree::Config.use_master_variant_volume_pricing = use_master_variant_volume_pricing
-        example.run
-        Spree::Config.use_master_variant_volume_pricing = current_pricing
-      end
-
       before do
+        stub_spree_preferences(use_master_variant_volume_pricing: use_master_variant_volume_pricing)
         master.volume_prices.create!(amount: 1.5, discount_type: 'price', range: '(1+)')
         variant.volume_prices.create!(amount: 3.5, discount_type: 'price', range: '(1+)')
       end

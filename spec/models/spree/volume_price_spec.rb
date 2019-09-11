@@ -1,7 +1,7 @@
 RSpec.describe Spree::VolumePrice, type: :model do
-  it { is_expected.to belong_to(:variant).touch(true) }
-  it { is_expected.to belong_to(:volume_price_model).touch(true) }
-  it { is_expected.to belong_to(:spree_role).class_name('Spree::Role').with_foreign_key('role_id') }
+  it { is_expected.to belong_to(:variant).touch(true).optional }
+  it { is_expected.to belong_to(:volume_price_model).touch(true).optional }
+  it { is_expected.to belong_to(:spree_role).class_name('Spree::Role').with_foreign_key('role_id').optional }
   it { is_expected.to validate_presence_of(:discount_type) }
   it { is_expected.to validate_presence_of(:amount) }
   it do
@@ -42,7 +42,7 @@ RSpec.describe Spree::VolumePrice, type: :model do
       end
 
       before do
-        Spree::Config.volume_pricing_role = role.name
+        stub_spree_preferences(volume_pricing_role: role.name)
       end
 
       context 'whose role matches' do
