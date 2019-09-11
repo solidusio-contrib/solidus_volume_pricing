@@ -1,5 +1,5 @@
 module SolidusVolumePricing
-  class PricingOptions < Spree::Variant::PricingOptions
+  class PricingOptions < ::Spree::Variant::PricingOptions
     attr_accessor :quantity, :user
 
     def initialize(options = {})

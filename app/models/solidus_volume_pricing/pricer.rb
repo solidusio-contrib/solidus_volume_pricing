@@ -1,5 +1,5 @@
 module SolidusVolumePricing
-  class Pricer < Spree::Variant::PriceSelector
+  class Pricer < ::Spree::Variant::PriceSelector
     attr_reader :quantity, :user
 
     def self.pricing_options_class
@@ -8,12 +8,12 @@ module SolidusVolumePricing
 
     def price_for(pricing_options)
       extract_options(pricing_options)
-      Spree::Money.new(computed_price)
+      ::Spree::Money.new(computed_price)
     end
 
     def earning_amount(pricing_options)
       extract_options(pricing_options)
-      Spree::Money.new(computed_earning)
+      ::Spree::Money.new(computed_earning)
     end
 
     def earning_percent(pricing_options)
@@ -29,7 +29,7 @@ module SolidusVolumePricing
     end
 
     def use_master_variant_volume_pricing?
-      Spree::Config.use_master_variant_volume_pricing && @variant.volume_prices.empty?
+      ::Spree::Config.use_master_variant_volume_pricing && @variant.volume_prices.empty?
     end
 
     def variant
@@ -41,7 +41,7 @@ module SolidusVolumePricing
     end
 
     def volume_prices
-      Spree::VolumePrice.for_variant(variant, user: user)
+      ::Spree::VolumePrice.for_variant(variant, user: user)
     end
 
     def volume_price

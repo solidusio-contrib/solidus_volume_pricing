@@ -31,7 +31,7 @@ RSpec.describe Spree::Order, type: :model do
     end
 
     it 'uses the master variant volume price in case variant has no volume price if config is true' do
-      Spree::Config.use_master_variant_volume_pricing = true
+      stub_spree_preferences(use_master_variant_volume_pricing: true)
       @master = @variant.product.master
       @master.volume_prices << create(:volume_price, range: '(1..5)', amount: 9, position: 2)
       @order.contents.add(@variant, 5)
@@ -39,7 +39,7 @@ RSpec.describe Spree::Order, type: :model do
     end
 
     it 'doesnt use the master variant volume price in case variant has no volume price if config is false' do
-      Spree::Config.use_master_variant_volume_pricing = false
+      stub_spree_preferences(use_master_variant_volume_pricing: false)
       @master = @variant.product.master
       @master.volume_prices << create(:volume_price, range: '(1..5)', amount: 9, position: 2)
       @order.contents.add(@variant, 5)

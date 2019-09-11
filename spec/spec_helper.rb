@@ -1,44 +1,26 @@
 require 'simplecov'
-SimpleCov.start 'rails' do
-  add_filter "/lib/generators"
-  add_filter "/lib/solidus_volume_pricing"
-end
+SimpleCov.start 'rails'
 
 ENV['RAILS_ENV'] ||= 'test'
 
-begin
-  require File.expand_path('../dummy/config/environment', __FILE__)
-rescue LoadError
-  puts 'Could not load dummy application. Please ensure you have run `bundle exec rake test_app`'
-  exit
-end
+require File.expand_path("../dummy/config/environment.rb",  __FILE__)
 
-require 'rspec/rails'
-require 'ffaker'
-require 'shoulda-matchers'
-require 'pry'
+require 'solidus_support'
+require 'solidus_support/extension/feature_helper'
+
+require 'capybara/rspec'
+
+require 'spree/testing_support/controller_requests'
+require 'spree/testing_support/capybara_ext'
+
+Dir[File.join(File.dirname(__FILE__), "support/**/*.rb")].each { |f| require f }
+
+FactoryBot.use_parent_strategy = false
+FactoryBot.find_definitions
 
 RSpec.configure do |config|
-  config.fail_fast = false
-  config.filter_run focus: true
-  config.run_all_when_everything_filtered = true
-
-  config.mock_with :rspec
-  config.use_transactional_fixtures = false
-  config.raise_errors_for_deprecations!
   config.infer_spec_type_from_file_location!
+  config.use_transactional_fixtures = false
 
-  config.expect_with :rspec do |expectations|
-    expectations.syntax = :expect
-  end
+  config.include Spree::TestingSupport::ControllerRequests, type: :controller
 end
-
-# From: https://github.com/thoughtbot/shoulda-matchers/issues/384
-Shoulda::Matchers.configure do |config|
-  config.integrate do |with|
-    with.test_framework :rspec
-    with.library :rails
-  end
-end
-
-Dir[File.join(File.dirname(__FILE__), 'support/**/*.rb')].each { |file| require file }
