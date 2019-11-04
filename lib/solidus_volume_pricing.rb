@@ -1,5 +1,5 @@
 require 'active_support/deprecation'
-require 'sass/rails'
+require 'sassc/rails'
 require 'deface'
 require 'solidus_core'
 require 'solidus_volume_pricing/engine'
