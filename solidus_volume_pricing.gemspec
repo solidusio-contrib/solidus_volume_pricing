@@ -26,7 +26,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'deface', '~> 1.0'
 
   s.add_development_dependency 'sqlite3'
-  s.add_development_dependency 'capybara', '~> 2.4'
+  s.add_development_dependency 'capybara', '~> 3.1'
   s.add_development_dependency 'ffaker', '>= 1.32.1'
   s.add_development_dependency 'shoulda-matchers'
   s.add_development_dependency 'rspec-rails', '~> 3.2'
