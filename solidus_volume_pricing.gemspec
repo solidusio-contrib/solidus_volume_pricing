@@ -34,7 +34,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'pry-rails', '>= 0.3'
   s.add_development_dependency 'poltergeist', '~> 1.6'
   s.add_development_dependency 'database_cleaner', '~> 1.4'
-  s.add_development_dependency 'coffee-rails', '~> 4.0'
+  s.add_development_dependency 'coffee-rails', '~> 5.0'
   s.add_development_dependency 'sassc-rails'
   s.add_development_dependency 'rubocop', '>= 0.24.1'
   s.add_development_dependency 'selenium-webdriver'
