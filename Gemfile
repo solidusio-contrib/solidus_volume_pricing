@@ -10,9 +10,9 @@ else
 end
 
 if branch < 'v2.5'
-  gem 'factory_bot', '4.10.0'
+  gem 'factory_bot', '4.11.1'
 else
-  gem 'factory_bot', '> 4.10.0'
+  gem 'factory_bot', '4.11.1'
 end
 
 gemspec
