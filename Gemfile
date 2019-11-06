@@ -1,18 +1,17 @@
 source 'https://rubygems.org'
 
 branch = ENV.fetch('SOLIDUS_BRANCH', 'master')
-gem 'solidus', git: 'https://github.com/solidusio/solidus.git', branch: branch
+gem 'solidus', github: 'solidusio/solidus', branch: branch
 
-if ENV['DB'] == 'mysql'
-  gem 'mysql2', '~> 0.4.10'
-else
-  gem 'pg', '~> 1.1'
-end
+gem 'solidus_kitchen', github: 'solidusio-contrib/solidus_kitchen'
 
-if branch < 'v2.5'
-  gem 'factory_bot', '4.10.0'
+case ENV['DB']
+when 'mysql'
+  gem 'mysql2'
+when 'postgres'
+  gem 'pg'
 else
-  gem 'factory_bot', '> 4.10.0'
+  gem 'sqlite3'
 end
 
 gemspec

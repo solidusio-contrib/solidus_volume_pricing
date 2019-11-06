@@ -1,8 +1,9 @@
----
-inherit_from: .hound.yml
+require:
+  - solidus_kitchen/rubocop
+
+inherit_gem:
+  solidus_kitchen: .rubocop.extension.yml
 
 AllCops:
   Exclude:
     - spec/dummy/**/*
-    - bin/*
-    - Guardfile
