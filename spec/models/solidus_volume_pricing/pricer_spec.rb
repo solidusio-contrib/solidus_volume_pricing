@@ -1,12 +1,23 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 RSpec.shared_examples 'having the variant price' do
   it 'uses the variants price' do
-    is_expected.to eq('$10.00')
+    expect(subject).to eq('$10.00')
   end
 end
 
 RSpec.describe SolidusVolumePricing::Pricer do
+  let(:other_role) { create(:role) }
+  let(:role) { create(:role) }
+  let(:user) { create(:user) }
+  let(:variant) { create(:variant, price: 10) }
+
+  before do
+    stub_spree_preferences(volume_pricing_role: role.name)
+  end
+
   it 'inherits from default variant pricer' do
     expect(described_class < Spree::Variant::PriceSelector).to be(true)
   end
@@ -15,24 +26,15 @@ RSpec.describe SolidusVolumePricing::Pricer do
     expect(described_class.pricing_options_class).to eq(SolidusVolumePricing::PricingOptions)
   end
 
-  let(:variant) { create(:variant, price: 10) }
-  let(:user) { create(:user) }
-  let(:role) { create(:role) }
-  let(:other_role) { create(:role) }
-
-  before do
-    stub_spree_preferences(volume_pricing_role: role.name)
-  end
-
   describe '#price_for' do
+    subject do
+      described_class.new(variant).price_for(pricing_options).to_s
+    end
+
     let(:quantity) { 1 }
 
     let(:pricing_options) do
       SolidusVolumePricing::PricingOptions.new(quantity: quantity)
-    end
-
-    subject do
-      SolidusVolumePricing::Pricer.new(variant).price_for(pricing_options).to_s
     end
 
     context 'discount_type = price' do
@@ -48,7 +50,7 @@ RSpec.describe SolidusVolumePricing::Pricer do
         let(:quantity) { 10 }
 
         it 'uses the volume price' do
-          is_expected.to eq('$7.00')
+          expect(subject).to eq('$7.00')
         end
 
         context 'when volume price has a role' do
@@ -72,7 +74,7 @@ RSpec.describe SolidusVolumePricing::Pricer do
               before { user.spree_roles << role }
 
               it 'uses the volume price' do
-                is_expected.to eq('$7.00')
+                expect(subject).to eq('$7.00')
               end
             end
 
@@ -93,7 +95,7 @@ RSpec.describe SolidusVolumePricing::Pricer do
           end
 
           it 'uses the volume price from model' do
-            is_expected.to eq('$5.00')
+            expect(subject).to eq('$5.00')
           end
         end
       end
@@ -112,7 +114,7 @@ RSpec.describe SolidusVolumePricing::Pricer do
         let(:quantity) { 10 }
 
         it 'uses the volume price' do
-          is_expected.to eq('$9.00')
+          expect(subject).to eq('$9.00')
         end
 
         context 'when volume price has a role' do
@@ -136,7 +138,7 @@ RSpec.describe SolidusVolumePricing::Pricer do
               before { user.spree_roles << role }
 
               it 'uses the volume price' do
-                is_expected.to eq('$9.00')
+                expect(subject).to eq('$9.00')
               end
             end
 
@@ -158,7 +160,7 @@ RSpec.describe SolidusVolumePricing::Pricer do
         end
 
         it 'uses the volume price from model' do
-          is_expected.to eq('$8.00')
+          expect(subject).to eq('$8.00')
         end
       end
     end
@@ -176,7 +178,7 @@ RSpec.describe SolidusVolumePricing::Pricer do
         let(:quantity) { 10 }
 
         it 'uses the volume price' do
-          is_expected.to eq('$7.50')
+          expect(subject).to eq('$7.50')
         end
 
         context 'when volume price has a role' do
@@ -200,7 +202,7 @@ RSpec.describe SolidusVolumePricing::Pricer do
               before { user.spree_roles << role }
 
               it 'uses the volume price' do
-                is_expected.to eq('$7.50')
+                expect(subject).to eq('$7.50')
               end
             end
 
@@ -219,7 +221,7 @@ RSpec.describe SolidusVolumePricing::Pricer do
         it 'uses the volume price from model' do
           variant.volume_price_models << create(:volume_price_model)
           variant.volume_price_models.first.volume_prices.create!(amount: 0.75, discount_type: 'percent', range: '(5+)')
-          is_expected.to eq('$2.50')
+          expect(subject).to eq('$2.50')
         end
       end
     end
@@ -246,7 +248,7 @@ RSpec.describe SolidusVolumePricing::Pricer do
 
         context 'when volume prices are present on variant' do
           it 'uses the variant to compute price' do
-            is_expected.to eq('$3.50')
+            expect(subject).to eq('$3.50')
           end
         end
 
@@ -256,7 +258,7 @@ RSpec.describe SolidusVolumePricing::Pricer do
           end
 
           it 'uses the master variant to compute price' do
-            is_expected.to eq('$1.50')
+            expect(subject).to eq('$1.50')
           end
         end
       end
@@ -265,19 +267,19 @@ RSpec.describe SolidusVolumePricing::Pricer do
         let(:use_master_variant_volume_pricing) { false }
 
         it 'uses the master variant to compute price' do
-          is_expected.to eq('$3.50')
+          expect(subject).to eq('$3.50')
         end
       end
     end
   end
 
   describe '#earning_amount' do
-    let(:pricing_options) do
-      SolidusVolumePricing::PricingOptions.new(quantity: quantity)
+    subject do
+      described_class.new(variant).earning_amount(pricing_options).to_s
     end
 
-    subject do
-      SolidusVolumePricing::Pricer.new(variant).earning_amount(pricing_options).to_s
+    let(:pricing_options) do
+      SolidusVolumePricing::PricingOptions.new(quantity: quantity)
     end
 
     context 'discount_type = price' do
@@ -289,7 +291,7 @@ RSpec.describe SolidusVolumePricing::Pricer do
         let(:quantity) { 10 }
 
         it 'gives amount earning' do
-          is_expected.to eq('$1.00')
+          expect(subject).to eq('$1.00')
         end
 
         context 'when volume_price has role' do
@@ -311,7 +313,7 @@ RSpec.describe SolidusVolumePricing::Pricer do
               end
 
               it 'gives amount earning' do
-                is_expected.to eq('$1.00')
+                expect(subject).to eq('$1.00')
               end
             end
 
@@ -321,14 +323,14 @@ RSpec.describe SolidusVolumePricing::Pricer do
               end
 
               it 'gives zero earning amount' do
-                is_expected.to eq('$0.00')
+                expect(subject).to eq('$0.00')
               end
             end
           end
 
           context 'when no user is given' do
             it 'gives zero earning amount' do
-              is_expected.to eq('$0.00')
+              expect(subject).to eq('$0.00')
             end
           end
         end
@@ -338,7 +340,7 @@ RSpec.describe SolidusVolumePricing::Pricer do
         let(:quantity) { 1 }
 
         it 'gives zero earning amount' do
-          is_expected.to eq('$0.00')
+          expect(subject).to eq('$0.00')
         end
       end
     end
@@ -352,7 +354,7 @@ RSpec.describe SolidusVolumePricing::Pricer do
         let(:quantity) { 10 }
 
         it 'gives amount earning' do
-          is_expected.to eq('$2.50')
+          expect(subject).to eq('$2.50')
         end
 
         context 'when volume_price has role' do
@@ -374,7 +376,7 @@ RSpec.describe SolidusVolumePricing::Pricer do
               end
 
               it 'gives amount earning' do
-                is_expected.to eq('$2.50')
+                expect(subject).to eq('$2.50')
               end
             end
 
@@ -384,14 +386,14 @@ RSpec.describe SolidusVolumePricing::Pricer do
               end
 
               it 'gives zero earning amount' do
-                is_expected.to eq('$0.00')
+                expect(subject).to eq('$0.00')
               end
             end
           end
 
           context 'when no user is given' do
             it 'gives zero earning amount' do
-              is_expected.to eq('$0.00')
+              expect(subject).to eq('$0.00')
             end
           end
         end
@@ -401,7 +403,7 @@ RSpec.describe SolidusVolumePricing::Pricer do
         let(:quantity) { 1 }
 
         it 'gives zero earning amount' do
-          is_expected.to eq('$0.00')
+          expect(subject).to eq('$0.00')
         end
       end
     end
@@ -415,7 +417,7 @@ RSpec.describe SolidusVolumePricing::Pricer do
         let(:quantity) { 10 }
 
         it 'gives amount earning' do
-          is_expected.to eq('$7.50')
+          expect(subject).to eq('$7.50')
         end
 
         context 'when volume_price has role' do
@@ -437,7 +439,7 @@ RSpec.describe SolidusVolumePricing::Pricer do
               end
 
               it 'gives amount earning' do
-                is_expected.to eq('$7.50')
+                expect(subject).to eq('$7.50')
               end
             end
 
@@ -447,14 +449,14 @@ RSpec.describe SolidusVolumePricing::Pricer do
               end
 
               it 'gives zero earning amount' do
-                is_expected.to eq('$0.00')
+                expect(subject).to eq('$0.00')
               end
             end
           end
 
           context 'when no user is given' do
             it 'gives zero earning amount' do
-              is_expected.to eq('$0.00')
+              expect(subject).to eq('$0.00')
             end
           end
         end
@@ -464,19 +466,19 @@ RSpec.describe SolidusVolumePricing::Pricer do
         let(:quantity) { 1 }
 
         it 'gives zero earning amount' do
-          is_expected.to eq('$0.00')
+          expect(subject).to eq('$0.00')
         end
       end
     end
   end
 
   describe '#earning_percent' do
-    let(:pricing_options) do
-      SolidusVolumePricing::PricingOptions.new(quantity: quantity)
+    subject do
+      described_class.new(variant).earning_percent(pricing_options)
     end
 
-    subject do
-      SolidusVolumePricing::Pricer.new(variant).earning_percent(pricing_options)
+    let(:pricing_options) do
+      SolidusVolumePricing::PricingOptions.new(quantity: quantity)
     end
 
     context 'discount_type = price' do
@@ -488,7 +490,7 @@ RSpec.describe SolidusVolumePricing::Pricer do
         let(:quantity) { 10 }
 
         it 'gives percent of earning' do
-          is_expected.to eq(10)
+          expect(subject).to eq(10)
         end
 
         context 'when volume_price has role' do
@@ -510,7 +512,7 @@ RSpec.describe SolidusVolumePricing::Pricer do
               end
 
               it 'gives percent of earning if role matches' do
-                is_expected.to eq(10)
+                expect(subject).to eq(10)
               end
             end
 
@@ -520,14 +522,14 @@ RSpec.describe SolidusVolumePricing::Pricer do
               end
 
               it 'gives zero percent earning' do
-                is_expected.to eq(0)
+                expect(subject).to eq(0)
               end
             end
           end
 
           context 'when no user is given' do
             it 'gives zero earning amount' do
-              is_expected.to eq(0)
+              expect(subject).to eq(0)
             end
           end
         end
@@ -537,7 +539,7 @@ RSpec.describe SolidusVolumePricing::Pricer do
         let(:quantity) { 1 }
 
         it 'gives zero percent earning' do
-          is_expected.to eq(0)
+          expect(subject).to eq(0)
         end
       end
     end
@@ -551,7 +553,7 @@ RSpec.describe SolidusVolumePricing::Pricer do
         let(:quantity) { 10 }
 
         it 'gives percent of earning' do
-          is_expected.to eq(25)
+          expect(subject).to eq(25)
         end
 
         context 'when volume_price has role' do
@@ -573,7 +575,7 @@ RSpec.describe SolidusVolumePricing::Pricer do
               end
 
               it 'gives percent of earning if role matches' do
-                is_expected.to eq(25)
+                expect(subject).to eq(25)
               end
             end
 
@@ -583,14 +585,14 @@ RSpec.describe SolidusVolumePricing::Pricer do
               end
 
               it 'gives zero percent earning' do
-                is_expected.to eq(0)
+                expect(subject).to eq(0)
               end
             end
           end
 
           context 'when no user is given' do
             it 'gives zero earning amount' do
-              is_expected.to eq(0)
+              expect(subject).to eq(0)
             end
           end
         end
@@ -600,7 +602,7 @@ RSpec.describe SolidusVolumePricing::Pricer do
         let(:quantity) { 1 }
 
         it 'gives zero percent earning' do
-          is_expected.to eq(0)
+          expect(subject).to eq(0)
         end
       end
     end
@@ -614,7 +616,7 @@ RSpec.describe SolidusVolumePricing::Pricer do
         let(:quantity) { 10 }
 
         it 'gives percent of earning' do
-          is_expected.to eq(25)
+          expect(subject).to eq(25)
         end
 
         context 'when volume_price has role' do
@@ -636,7 +638,7 @@ RSpec.describe SolidusVolumePricing::Pricer do
               end
 
               it 'gives percent of earning if role matches' do
-                is_expected.to eq(25)
+                expect(subject).to eq(25)
               end
             end
 
@@ -646,14 +648,14 @@ RSpec.describe SolidusVolumePricing::Pricer do
               end
 
               it 'gives zero percent earning' do
-                is_expected.to eq(0)
+                expect(subject).to eq(0)
               end
             end
           end
 
           context 'when no user is given' do
             it 'gives zero earning amount' do
-              is_expected.to eq(0)
+              expect(subject).to eq(0)
             end
           end
         end
@@ -663,7 +665,7 @@ RSpec.describe SolidusVolumePricing::Pricer do
         let(:quantity) { 1 }
 
         it 'gives zero percent earning' do
-          is_expected.to eq(0)
+          expect(subject).to eq(0)
         end
       end
     end

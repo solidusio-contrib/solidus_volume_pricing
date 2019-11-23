@@ -1,11 +1,13 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
-RSpec.feature 'Managing volume prices' do
+RSpec.describe 'Managing volume prices' do
   stub_authorization!
 
   let(:variant) { create(:variant) }
 
-  scenario 'a admin can create and remove volume prices', :js do
+  it 'a admin can create and remove volume prices', :js do
     visit spree.edit_admin_product_path(variant.product)
     click_on 'Volume Pricing'
     expect(page).to have_content('Volume Prices')
@@ -19,11 +21,11 @@ RSpec.feature 'Managing volume prices' do
     within 'tr.volume_price.fields' do
       expect(page).to have_field('variant_volume_prices_attributes_0_name', with: '5 pieces discount')
       page.find('a[data-action="remove"]').click
-      expect(page).to_not have_field('variant_volume_prices_attributes_0_name', with: '5 pieces discount')
+      expect(page).not_to have_field('variant_volume_prices_attributes_0_name', with: '5 pieces discount')
     end
   end
 
-  scenario 'a admin editing a variant has a new volume price already built for her' do
+  it 'a admin editing a variant has a new volume price already built for her' do
     visit spree.edit_admin_product_variant_path(product_id: variant.product, id: variant)
     within '#volume_prices' do
       expect(page).to have_field('variant_volume_prices_attributes_0_name')

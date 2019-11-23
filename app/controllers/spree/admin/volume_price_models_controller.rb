@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 module Spree
   module Admin
     class VolumePriceModelsController < ResourceController
-
       before_action :load_volume_prices, only: [:new, :edit]
 
       private

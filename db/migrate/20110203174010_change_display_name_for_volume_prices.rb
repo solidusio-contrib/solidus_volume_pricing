@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ChangeDisplayNameForVolumePrices < ActiveRecord::Migration[4.2]
   def self.up
     rename_column :volume_prices, :display, :name

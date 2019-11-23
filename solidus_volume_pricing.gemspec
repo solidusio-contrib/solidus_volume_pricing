@@ -1,4 +1,6 @@
-lib = File.expand_path('../lib/', __FILE__)
+# frozen_string_literal: true
+
+lib = File.expand_path('lib', __dir__)
 $LOAD_PATH.unshift lib unless $LOAD_PATH.include?(lib)
 
 require 'solidus_volume_pricing/version'
@@ -21,9 +23,9 @@ Gem::Specification.new do |s|
   s.require_path = 'lib'
   s.requirements << 'none'
 
-  s.add_runtime_dependency 'solidus_core', '>= 2.0'
-  s.add_runtime_dependency 'solidus_backend', '>= 2.0'
   s.add_runtime_dependency 'deface', '~> 1.0'
+  s.add_runtime_dependency 'solidus_backend', '>= 2.0'
+  s.add_runtime_dependency 'solidus_core', '>= 2.0'
 
   s.add_development_dependency 'shoulda-matchers'
   s.add_development_dependency 'solidus_extension_dev_tools'

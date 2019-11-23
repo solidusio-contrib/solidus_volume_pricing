@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'active_support/deprecation'
 require 'sassc/rails'
 require 'deface'

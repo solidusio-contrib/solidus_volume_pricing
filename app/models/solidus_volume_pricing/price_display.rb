@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SolidusVolumePricing
   class PriceDisplay
     attr_reader :variant, :quantity, :user

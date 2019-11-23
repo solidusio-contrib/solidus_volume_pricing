@@ -1,4 +1,6 @@
-class Spree::VolumePrice < ActiveRecord::Base
+# frozen_string_literal: true
+
+class Spree::VolumePrice < ApplicationRecord
   belongs_to :variant, touch: true, optional: true
   belongs_to :volume_price_model, touch: true, optional: true
   belongs_to :spree_role, class_name: 'Spree::Role', foreign_key: 'role_id', optional: true
@@ -6,17 +8,17 @@ class Spree::VolumePrice < ActiveRecord::Base
 
   validates :amount, presence: true
   validates :discount_type,
-            presence: true,
-            inclusion: {
-              in: %w(price dollar percent)
-            }
+    presence: true,
+    inclusion: {
+      in: %w(price dollar percent)
+    }
 
   validate :range_format
 
   def self.for_variant(variant, user: nil)
     roles = [nil]
     if user
-      roles << user.resolve_role.try!(:id)
+      roles << user.resolve_role&.id
     end
 
     where(
@@ -25,13 +27,11 @@ class Spree::VolumePrice < ActiveRecord::Base
         arel_table[:volume_price_model_id].in(variant.volume_price_model_ids)
       )
     ).
-    where(role_id: roles).
-    order(position: :asc, amount: :asc)
+      where(role_id: roles).
+      order(position: :asc, amount: :asc)
   end
 
-  def include?(quantity)
-    range_from_string.include?(quantity)
-  end
+  delegate :include?, to: :range_from_string
 
   def display_range
     range.gsub(/\.+/, "-").gsub(/\(|\)/, '')

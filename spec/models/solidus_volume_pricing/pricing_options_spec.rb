@@ -1,12 +1,14 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 RSpec.describe SolidusVolumePricing::PricingOptions do
-  it 'inherits from default pricing options class' do
-    expect(described_class < Spree::Variant::PricingOptions).to be(true)
-  end
-
   let(:user) do
     build_stubbed(:user)
+  end
+
+  it 'inherits from default pricing options class' do
+    expect(described_class < Spree::Variant::PricingOptions).to be(true)
   end
 
   describe 'new instances' do
@@ -23,11 +25,11 @@ RSpec.describe SolidusVolumePricing::PricingOptions do
     end
 
     it 'desired_attributes dont have quantity key' do
-      expect(subject.desired_attributes).to_not have_key(:quantity)
+      expect(subject.desired_attributes).not_to have_key(:quantity)
     end
 
     it 'desired_attributes dont have user key' do
-      expect(subject.desired_attributes).to_not have_key(:user)
+      expect(subject.desired_attributes).not_to have_key(:user)
     end
   end
 
