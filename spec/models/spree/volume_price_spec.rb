@@ -1,26 +1,29 @@
+# frozen_string_literal: true
+
 RSpec.describe Spree::VolumePrice, type: :model do
+  let(:volume_price) do
+    described_class.new(variant: Spree::Variant.new, amount: 10, discount_type: 'price')
+  end
+
   it { is_expected.to belong_to(:variant).touch(true).optional }
   it { is_expected.to belong_to(:volume_price_model).touch(true).optional }
   it { is_expected.to belong_to(:spree_role).class_name('Spree::Role').with_foreign_key('role_id').optional }
   it { is_expected.to validate_presence_of(:discount_type) }
   it { is_expected.to validate_presence_of(:amount) }
+
   it do
-    is_expected.to \
+    expect(subject).to \
       validate_inclusion_of(:discount_type).
       in_array(%w(price dollar percent)).
       with_message('shoulda-matchers test string is not a valid Volume Price Type')
   end
 
-  let(:volume_price) do
-    Spree::VolumePrice.new(variant: Spree::Variant.new, amount: 10, discount_type: 'price')
-  end
-
   describe '.for_variant' do
+    subject { described_class.for_variant(variant, user: user) }
+
     let(:user) { nil }
     let(:variant) { create(:variant) }
     let!(:volume_prices) { create_list(:volume_price, 2, variant: variant) }
-
-    subject { described_class.for_variant(variant, user: user) }
 
     context 'if no user is given' do
       it 'returns all volume prices for given variant that are not related to a specific role' do
@@ -65,7 +68,7 @@ RSpec.describe Spree::VolumePrice, type: :model do
         end
 
         it 'does not include role specific volume prices' do
-          expect(subject).to_not include(*volume_prices_for_user_role)
+          expect(subject).not_to include(*volume_prices_for_user_role)
         end
 
         it 'returns non-role specific volume prices' do
@@ -95,7 +98,7 @@ RSpec.describe Spree::VolumePrice, type: :model do
 
       context 'and these volume prices are not related to the given variant' do
         it 'does not include these volume prices' do
-          expect(subject).to_not include(*volume_prices_from_model)
+          expect(subject).not_to include(*volume_prices_from_model)
         end
       end
     end
@@ -154,23 +157,26 @@ RSpec.describe Spree::VolumePrice, type: :model do
   end
 
   describe 'display_range' do
-    let(:volume_price) { Spree::VolumePrice.new(range: range) }
-
     subject(:display_range) { volume_price.display_range }
+
+    let(:volume_price) { described_class.new(range: range) }
 
     context 'with parens' do
       let(:range) { '(48+)' }
-      it { is_expected.to eq('48+')}
+
+      it { is_expected.to eq('48+') }
     end
 
     context 'with range dots' do
       let(:range) { '1..3' }
-      it { is_expected.to eq('1-3')}
+
+      it { is_expected.to eq('1-3') }
     end
 
     context 'with range dots and parens' do
       let(:range) { '(1..3)' }
-      it { is_expected.to eq('1-3')}
+
+      it { is_expected.to eq('1-3') }
     end
   end
 

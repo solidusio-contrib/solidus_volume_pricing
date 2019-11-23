@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateSpreeVolumePriceModels < ActiveRecord::Migration[4.2]
   def change
     create_table :spree_volume_price_models do |t|

@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 RSpec.describe Spree::BaseHelper, type: :helper do
-  include Spree::BaseHelper
+  include described_class
 
   context 'volume pricing' do
     before do

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :volume_price, class: Spree::VolumePrice do
     amount { 10 }

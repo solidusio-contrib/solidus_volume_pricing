@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'shoulda-matchers'
 
 # From: https://github.com/thoughtbot/shoulda-matchers/issues/384

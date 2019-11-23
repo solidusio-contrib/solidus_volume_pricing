@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SolidusVolumePricing
   class RangeFromString
     attr_reader :range_string

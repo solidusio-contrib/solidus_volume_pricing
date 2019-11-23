@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Spree::Admin::VariantsController, type: :controller do
   stub_authorization!
 

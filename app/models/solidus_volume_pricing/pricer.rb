@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SolidusVolumePricing
   class Pricer < ::Spree::Variant::PriceSelector
     attr_reader :quantity, :user
@@ -51,7 +53,7 @@ module SolidusVolumePricing
     end
 
     def computed_price
-      case volume_price.try!(:discount_type)
+      case volume_price&.discount_type
       when 'price'
         volume_price.amount
       when 'dollar'
@@ -64,7 +66,7 @@ module SolidusVolumePricing
     end
 
     def computed_earning
-      case volume_price.try!(:discount_type)
+      case volume_price&.discount_type
       when 'price'
         variant.price - volume_price.amount
       when 'dollar'
@@ -77,7 +79,7 @@ module SolidusVolumePricing
     end
 
     def computed_earning_percent
-      case volume_price.try!(:discount_type)
+      case volume_price&.discount_type
       when 'price'
         diff = variant.price - volume_price.amount
         diff * 100 / variant.price

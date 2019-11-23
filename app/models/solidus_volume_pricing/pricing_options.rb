@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SolidusVolumePricing
   class PricingOptions < ::Spree::Variant::PricingOptions
     attr_accessor :quantity, :user
