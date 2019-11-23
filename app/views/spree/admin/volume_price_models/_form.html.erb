@@ -1,12 +1,12 @@
 <div data-hook="admin_inside_volume_price_model_form" class="form-group">
   <%= f.field_container :name, class: ['form-group'] do %>
-    <%= f.label :name, I18n.t('spree.name') %> <span class="required">*</span>
+    <%= f.label :name, t('spree.name') %> <span class="required">*</span>
     <%= error_message_on :volume_price_model, :name, :class => 'error-message' %>
     <%= text_field :volume_price_model, :name, :class => 'form-control' %>
   <% end %>
 
   <fieldset>
-    <legend><%= I18n.t('spree.volume_prices') %></legend>
+    <legend><%= t('spree.volume_prices') %></legend>
 
     <%= render 'spree/admin/volume_prices/table', f: f %>
   </fieldset>
