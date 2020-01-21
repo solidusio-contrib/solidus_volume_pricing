@@ -28,5 +28,5 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'solidus_core', '>= 2.0'
 
   s.add_development_dependency 'shoulda-matchers'
-  s.add_development_dependency 'solidus_extension_dev_tools'
+  s.add_development_dependency 'solidus_dev_support'
 end
