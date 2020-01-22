@@ -1,8 +1,13 @@
 # frozen_string_literal: true
 
+require 'spree/core'
+
 module SolidusVolumePricing
   class Engine < Rails::Engine
+    include SolidusSupport::EngineExtensions::Decorators
+
     isolate_namespace ::Spree
+
     engine_name 'solidus_volume_pricing'
 
     initializer 'solidus_volume_pricing.preferences', before: 'spree.environment' do
@@ -21,5 +26,10 @@ module SolidusVolumePricing
 
     config.autoload_paths += %W(#{config.root}/lib)
     config.to_prepare(&method(:activate).to_proc)
+
+    # use rspec for tests
+    config.generators do |g|
+      g.test_framework :rspec
+    end
   end
 end
