@@ -24,7 +24,6 @@ module SolidusVolumePricing
       ::Spree::BackendConfiguration::CONFIGURATION_TABS << :volume_price_models
     end
 
-    config.autoload_paths += %W(#{config.root}/lib)
     config.to_prepare(&method(:activate).to_proc)
 
     # use rspec for tests

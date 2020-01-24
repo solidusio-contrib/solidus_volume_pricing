@@ -15,7 +15,7 @@ Gem::Specification.new do |s|
   s.author       = 'Sean Schofield'
   s.email        = 'sean@railsdog.com'
   s.homepage     = 'https://github.com/solidusio-contrib/solidus_volume_pricing'
-  s.license      = 'BSD-3'
+  s.license      = 'BSD-3-Clause'
 
   s.files = Dir.chdir(File.expand_path(__dir__)) do
     `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
@@ -31,7 +31,7 @@ Gem::Specification.new do |s|
   end
 
   s.add_runtime_dependency 'deface', '~> 1.0'
-  s.add_runtime_dependency 'solidus_backend', '>= 2.0'
+  s.add_runtime_dependency 'solidus_backend', ['>= 2.0.0', '< 3']
   s.add_runtime_dependency 'solidus_core', ['>= 2.0.0', '< 3']
   s.add_runtime_dependency 'solidus_support', '~> 0.4.0'
 
