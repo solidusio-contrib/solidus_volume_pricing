@@ -18,7 +18,6 @@ class Spree::VolumePrice < ApplicationRecord
   def self.for_variant(variant, user: nil)
     roles = [nil]
     if user
-      roles << user.resolve_role&.id
       user.spree_roles.each {|r| roles << r.id}
     end
 
