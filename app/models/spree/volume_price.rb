@@ -19,6 +19,7 @@ class Spree::VolumePrice < ApplicationRecord
     roles = [nil]
     if user
       roles << user.resolve_role&.id
+      user.spree_roles.each {|r| roles << r.id}
     end
 
     where(
