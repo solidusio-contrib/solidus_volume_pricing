@@ -11,6 +11,7 @@ end
 RSpec.describe SolidusVolumePricing::Pricer do
   let(:other_role) { create(:role) }
   let(:role) { create(:role) }
+  let(:pricing_role) { create(:role) }
   let(:user) { create(:user) }
   let(:variant) { create(:variant, price: 10) }
 
@@ -53,6 +54,33 @@ RSpec.describe SolidusVolumePricing::Pricer do
           expect(subject).to eq('$7.00')
         end
 
+        context 'when volume price has no role' do
+
+          context 'when a user is given' do
+            let(:pricing_options) do
+              SolidusVolumePricing::PricingOptions.new(
+                quantity: quantity,
+                user: user
+              )
+            end
+
+            context 'with no roles' do
+
+              it 'uses the volume price' do
+                expect(subject).to eq('$7.00')
+              end
+            end
+
+            context 'who has an arbitrary role' do
+              before { user.spree_roles << other_role }
+
+              it 'uses the volume price' do
+                expect(subject).to eq('$7.00')
+              end
+            end
+          end
+        end
+
         context 'when volume price has a role' do
           before do
             variant.volume_prices.first.update(role_id: role.id)
@@ -82,6 +110,40 @@ RSpec.describe SolidusVolumePricing::Pricer do
               before { user.spree_roles << other_role }
 
               it_behaves_like 'having the variant price'
+            end
+          end
+        end
+
+        context 'when volume price has a non-default role' do
+          before do
+            variant.volume_prices.first.update(role_id: pricing_role.id)
+          end
+
+          context 'when no user is given' do
+            it_behaves_like 'having the variant price'
+          end
+
+          context 'when a user is given' do
+            let(:pricing_options) do
+              SolidusVolumePricing::PricingOptions.new(
+                quantity: quantity,
+                user: user
+              )
+            end
+
+            context 'whose role matches' do
+              before { user.spree_roles << pricing_role }
+
+              it 'uses the volume price' do
+                expect(subject).to eq('$7.00')
+              end
+            end
+
+            context 'whose role does not match' do
+              before { user.spree_roles << other_role }
+
+              it_behaves_like 'having the variant price'
+
             end
           end
         end

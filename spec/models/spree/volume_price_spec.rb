@@ -23,7 +23,7 @@ RSpec.describe Spree::VolumePrice, type: :model do
 
     let(:user) { nil }
     let(:variant) { create(:variant) }
-    let!(:volume_prices) { create_list(:volume_price, 2, variant: variant) }
+    let!(:volume_prices) { create_list(:volume_price, 2, variant: variant, name:'Prices independent of role') }
 
     context 'if no user is given' do
       it 'returns all volume prices for given variant that are not related to a specific role' do
@@ -36,12 +36,20 @@ RSpec.describe Spree::VolumePrice, type: :model do
         create(:role, name: 'merchant')
       end
 
+      let(:alt_role) do
+        create(:role, name: 'partner')
+      end
+
       let(:user) do
         create(:user)
       end
 
       let!(:volume_prices_for_user_role) do
-        create_list(:volume_price, 2, variant: variant, role_id: role.id)
+        create_list(:volume_price, 2, variant: variant, role_id: role.id, name: 'Prices for preferenced role')
+      end
+
+      let!(:volume_prices_for_alt_user_role) do
+        create_list(:volume_price, 2, variant: variant, role_id: alt_role.id, name: 'Prices for arbitrary role')
       end
 
       before do
@@ -55,6 +63,20 @@ RSpec.describe Spree::VolumePrice, type: :model do
 
         it 'returns role specific volume prices' do
           expect(subject).to include(*volume_prices_for_user_role)
+        end
+
+        it 'returns non-role specific volume prices' do
+          expect(subject).to include(*volume_prices)
+        end
+      end
+
+      context 'whose role matches but is not configured at the application level' do
+        before do
+          user.spree_roles = [alt_role]
+        end
+
+        it 'returns role specific volume prices' do
+          expect(subject).to include(*volume_prices_for_alt_user_role)
         end
 
         it 'returns non-role specific volume prices' do
