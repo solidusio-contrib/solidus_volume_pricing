@@ -44,10 +44,6 @@ RSpec.describe Spree::VolumePrice, type: :model do
         create_list(:volume_price, 2, variant: variant, role_id: role.id)
       end
 
-      before do
-        stub_spree_preferences(volume_pricing_role: role.name)
-      end
-
       context 'whose role matches' do
         before do
           user.spree_roles = [role]
