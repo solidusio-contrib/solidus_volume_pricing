@@ -14,10 +14,6 @@ RSpec.describe SolidusVolumePricing::Pricer do
   let(:user) { create(:user) }
   let(:variant) { create(:variant, price: 10) }
 
-  before do
-    stub_spree_preferences(volume_pricing_role: role.name)
-  end
-
   it 'inherits from default variant pricer' do
     expect(described_class < Spree::Variant::PriceSelector).to be(true)
   end
