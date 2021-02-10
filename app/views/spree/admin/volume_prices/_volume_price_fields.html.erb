@@ -27,7 +27,9 @@
     <%= error_message_on(f.object, :role_id) %>
     <%= f.collection_select(:role_id, Spree::Role.all, :id, :name, { include_blank: t('spree.match_choices.none') }, { class: 'custom-select' }) %>
   </td>
-  <td class="actions">
-    <%= link_to_remove_fields t('spree.remove'), f, no_text: true %>
-  </td>
+  <% if f.object.persisted? %>
+    <td class="actions">
+      <%= link_to_delete f.object, url: admin_volume_price_url(f.object.id), no_text: true %>
+    </td>
+  <% end %>
 </tr>
