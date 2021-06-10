@@ -31,9 +31,9 @@ Gem::Specification.new do |s|
   end
 
   s.add_runtime_dependency 'deface', '~> 1.0'
-  s.add_runtime_dependency 'solidus_backend', ['>= 2.0.0', '< 3']
-  s.add_runtime_dependency 'solidus_core', ['>= 2.0.0', '< 3']
-  s.add_runtime_dependency 'solidus_support', '~> 0.5'
+  s.add_runtime_dependency 'solidus_backend', ['>= 2.0.0', '< 4']
+  s.add_runtime_dependency 'solidus_core', ['>= 2.0.0', '< 4']
+  s.add_runtime_dependency 'solidus_support', '~> 0.8'
 
   s.add_development_dependency 'shoulda-matchers'
   s.add_development_dependency 'solidus_dev_support'

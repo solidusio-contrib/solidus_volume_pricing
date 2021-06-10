@@ -19,10 +19,9 @@ RSpec.describe 'Managing volume price models' do
     end
     click_on 'Create'
 
-    within 'tr.volume_price.fields' do
-      expect(page).to have_field('volume_price_model_volume_prices_attributes_0_name', with: '5 pieces discount')
-      page.find('a[data-action="remove"]').click
-      expect(page).not_to have_field('volume_price_model_volume_prices_attributes_0_name', with: '5 pieces discount')
-    end
+    expect(page).to have_field('volume_price_model_volume_prices_attributes_0_name', with: '5 pieces discount')
+    accept_confirm { page.find('a[data-action="remove"]').click }
+
+    expect(page).not_to have_field('volume_price_model_volume_prices_attributes_0_name', with: '5 pieces discount')
   end
 end
