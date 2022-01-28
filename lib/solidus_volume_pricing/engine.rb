@@ -19,6 +19,7 @@ module SolidusVolumePricing
     def self.activate
       Dir.glob(File.join(File.dirname(__FILE__), '../../app/**/*_decorator*.rb')) do |c|
         Rails.configuration.cache_classes ? require(c) : load(c)
+        Rails.autoloaders.main.ignore(c) if Rails.autoloaders.zeitwerk_enabled?
       end
       ::Spree::BackendConfiguration::CONFIGURATION_TABS << :volume_price_models
     end
