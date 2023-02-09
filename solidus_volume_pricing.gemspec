@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.summary     = 'Allow prices to be configured in quantity ranges for each variant'
   s.description = s.summary
 
-  s.required_ruby_version = '~> 2.5'
+  s.required_ruby_version = '>= 2.5'
 
   s.author       = 'Sean Schofield'
   s.email        = 'sean@railsdog.com'
