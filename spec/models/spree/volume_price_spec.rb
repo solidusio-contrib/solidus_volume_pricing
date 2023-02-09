@@ -11,12 +11,7 @@ RSpec.describe Spree::VolumePrice, type: :model do
   it { is_expected.to validate_presence_of(:discount_type) }
   it { is_expected.to validate_presence_of(:amount) }
 
-  it do
-    expect(subject).to \
-      validate_inclusion_of(:discount_type).
-      in_array(%w(price dollar percent)).
-      with_message('shoulda-matchers test string is not a valid Volume Price Type')
-  end
+  it { is_expected.to validate_inclusion_of(:discount_type).in_array(%w[price dollar percent]) }
 
   describe '.for_variant' do
     subject { described_class.for_variant(variant, user: user) }

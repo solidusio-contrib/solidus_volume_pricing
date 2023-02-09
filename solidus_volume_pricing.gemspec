@@ -6,11 +6,11 @@ require 'solidus_volume_pricing/version'
 Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.name        = 'solidus_volume_pricing'
-  s.version     = SolidusVolumePricing.version
+  s.version     = SolidusVolumePricing::VERSION
   s.summary     = 'Allow prices to be configured in quantity ranges for each variant'
   s.description = s.summary
 
-  s.required_ruby_version = ['>= 2.4', '< 4.0']
+  s.required_ruby_version = '~> 2.5'
 
   s.author       = 'Sean Schofield'
   s.email        = 'sean@railsdog.com'
@@ -30,10 +30,13 @@ Gem::Specification.new do |s|
     s.metadata["source_code_uri"] = s.homepage if s.homepage
   end
 
-  s.add_runtime_dependency 'deface', '~> 1.0'
-  s.add_runtime_dependency 'solidus_backend', ['>= 2.0.0', '< 4']
-  s.add_runtime_dependency 'solidus_core', ['>= 2.0.0', '< 4']
-  s.add_runtime_dependency 'solidus_support', '~> 0.8'
+  s.add_runtime_dependency 'solidus_backend', ['>= 2.4.0', '< 4']
+
+  s.add_dependency 'coffee-rails'
+  s.add_dependency 'deface'
+  s.add_dependency 'sassc-rails'
+  s.add_dependency 'solidus_core', ['>= 2.4.0', '< 4']
+  s.add_dependency 'solidus_support', '~> 0.8'
 
   s.add_development_dependency 'shoulda-matchers'
   s.add_development_dependency 'solidus_dev_support'

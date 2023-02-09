@@ -7,7 +7,7 @@ RSpec.describe 'Managing volume prices' do
 
   let(:variant) { create(:variant) }
 
-  it 'a admin can create and remove volume prices', :js do
+  it 'an admin can create and remove volume prices', :js do
     visit spree.edit_admin_product_path(variant.product)
     click_on 'Volume Pricing'
     expect(page).to have_content('Volume Prices')
@@ -20,11 +20,11 @@ RSpec.describe 'Managing volume prices' do
 
     expect(page).to have_field('variant_volume_prices_attributes_0_name', with: '5 pieces discount')
     accept_confirm { page.find('a[data-action="remove"]').click }
-    
+
     expect(page).not_to have_field('variant_volume_prices_attributes_0_name', with: '5 pieces discount')
   end
 
-  it 'a admin editing a variant has a new volume price already built for her' do
+  it 'an admin editing a variant has a new volume price already built for her' do
     visit spree.edit_admin_product_variant_path(product_id: variant.product, id: variant)
     within '#volume_prices' do
       expect(page).to have_field('variant_volume_prices_attributes_0_name')

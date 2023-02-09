@@ -14,14 +14,14 @@ Each VolumePrice contains the following values:
 
 1. **Variant:** Each VolumePrice is associated with a _Variant_, which is used to link products to
    particular prices.
-1. **Name:** The human readable representation of the quantity range (Ex. 10-100). (Optional)
-1. **Discount Type** The type of discount to apply.  **Price:** sets price to the amount specified.
+2. **Name:** The human readable representation of the quantity range (Ex. 10-100). (Optional)
+3. **Discount Type** The type of discount to apply.  **Price:** sets price to the amount specified.
      * **Dollar:** subtracts specified amount from the Variant price.
      * **Percent:** subtracts the specified amounts percentage from the Variant price.
-1. **Range:** The quantity range for which the price is valid (See Below for Examples of Valid
+4. **Range:** The quantity range for which the price is valid (See Below for Examples of Valid
    Ranges.)
-1. **Amount:** The price of the product if the line item quantity falls within the specified range.
-1. **Position:** Integer value for `acts_as_list` (Helps keep the volume prices in a defined order.)
+5. **Amount:** The price of the product if the line item quantity falls within the specified range.
+6. **Position:** Integer value for `acts_as_list` (Helps keep the volume prices in a defined order.)
 
 ## Install
 
