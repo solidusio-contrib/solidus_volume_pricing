@@ -10,6 +10,7 @@ class CreateSpreeVolumePriceModels < ActiveRecord::Migration[4.2]
     create_table :spree_variants_volume_price_models do |t|
       t.belongs_to :volume_price_model
       t.belongs_to :variant
+      t.timestamps
     end
 
     add_reference :spree_volume_prices, :volume_price_model

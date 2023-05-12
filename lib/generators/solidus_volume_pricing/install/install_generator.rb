@@ -4,7 +4,7 @@ module SolidusVolumePricing
   module Generators
     class InstallGenerator < Rails::Generators::Base
       class_option :auto_run_migrations, type: :boolean, default: false
-      
+
       def self.exit_on_failure?
         true
       end

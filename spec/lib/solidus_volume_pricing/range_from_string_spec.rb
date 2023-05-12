@@ -30,13 +30,13 @@ RSpec.describe SolidusVolumePricing::RangeFromString do
       it { is_expected.to eq(1...2) }
     end
 
-    context 'with an open-ended string like #{x}+' do
+    context 'with an open-ended string like x+' do
       let(:argument) { '10+' }
 
       it { is_expected.to eq(10..Float::INFINITY) }
     end
 
-    context 'with an open-ended string like #{x}+ and parens' do
+    context 'with an open-ended string like x+" and parens' do
       let(:argument) { '(10+)' }
 
       it { is_expected.to eq(10..Float::INFINITY) }

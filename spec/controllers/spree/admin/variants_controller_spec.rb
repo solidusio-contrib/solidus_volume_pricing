@@ -3,7 +3,7 @@
 RSpec.describe Spree::Admin::VariantsController, type: :controller do
   stub_authorization!
 
-  context 'PUT #update' do
+  describe 'PUT #update' do
     it 'creates a volume price' do
       variant = create :variant
 
