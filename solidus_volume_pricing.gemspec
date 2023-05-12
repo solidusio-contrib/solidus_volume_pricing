@@ -1,43 +1,41 @@
 # frozen_string_literal: true
 
-$:.push File.expand_path('lib', __dir__)
-require 'solidus_volume_pricing/version'
+require_relative 'lib/solidus_volume_pricing/version'
 
-Gem::Specification.new do |s|
-  s.platform    = Gem::Platform::RUBY
-  s.name        = 'solidus_volume_pricing'
-  s.version     = SolidusVolumePricing::VERSION
-  s.summary     = 'Allow prices to be configured in quantity ranges for each variant'
-  s.description = s.summary
+Gem::Specification.new do |spec|
+  spec.name = 'solidus_volume_pricing'
+  spec.version = SolidusVolumePricing::VERSION
+  spec.authors = ['Sean Schofield']
+  spec.email = 'sean@railsdog.com'
 
-  s.required_ruby_version = '>= 2.5'
+  spec.summary = 'Allow prices to be configured in quantity ranges for each variant'
+  spec.description = 'Allow prices to be configured in quantity ranges for each variant'
+  spec.homepage = 'https://github.com/solidusio-contrib/solidus_volume_pricing'
+  spec.license = 'BSD-3-Clause'
 
-  s.author       = 'Sean Schofield'
-  s.email        = 'sean@railsdog.com'
-  s.homepage     = 'https://github.com/solidusio-contrib/solidus_volume_pricing'
-  s.license      = 'BSD-3-Clause'
+  spec.metadata['homepage_uri'] = spec.homepage
+  spec.metadata['source_code_uri'] = 'https://github.com/solidusio-contrib/solidus_volume_pricing'
+  spec.metadata['changelog_uri'] = 'https://github.com/cpfergus1/solidus_volume_pricing/blob/master/CHANGELOG.md'
 
-  s.files = Dir.chdir(File.expand_path(__dir__)) do
-    `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
-  end
-  s.test_files = Dir['spec/**/*']
-  s.bindir = "exe"
-  s.executables = s.files.grep(%r{^exe/}) { |f| File.basename(f) }
-  s.require_paths = ["lib"]
+  spec.required_ruby_version = Gem::Requirement.new('>= 2.5', '< 4')
 
-  if s.respond_to?(:metadata)
-    s.metadata["homepage_uri"] = s.homepage if s.homepage
-    s.metadata["source_code_uri"] = s.homepage if s.homepage
-  end
+  # Specify which files should be added to the gem when it is released.
+  # The `git ls-files -z` loads the files in the RubyGem that have been added into git.
+  files = Dir.chdir(__dir__) { `git ls-files -z`.split("\x0") }
 
-  s.add_runtime_dependency 'solidus_backend', ['>= 2.4.0', '< 4']
+  spec.files = files.grep_v(%r{^(test|spec|features)/})
+  spec.test_files = files.grep(%r{^(test|spec|features)/})
+  spec.bindir = "exe"
+  spec.executables = files.grep(%r{^exe/}) { |f| File.basename(f) }
+  spec.require_paths = ["lib"]
 
-  s.add_dependency 'coffee-rails'
-  s.add_dependency 'deface'
-  s.add_dependency 'sassc-rails'
-  s.add_dependency 'solidus_core', ['>= 2.4.0', '< 4']
-  s.add_dependency 'solidus_support', '~> 0.8'
+  spec.add_runtime_dependency 'solidus_backend', ['>= 2.4.0', '< 4']
+  spec.add_dependency 'coffee-rails'
+  spec.add_dependency 'deface'
+  spec.add_dependency 'sassc-rails'
+  spec.add_dependency 'solidus_core', ['>= 2.0.0', '< 4']
+  spec.add_dependency 'solidus_support', '~> 0.8'
 
-  s.add_development_dependency 'shoulda-matchers'
-  s.add_development_dependency 'solidus_dev_support'
+  spec.add_development_dependency 'shoulda-matchers'
+  spec.add_development_dependency 'solidus_dev_support', '~> 2.6'
 end
