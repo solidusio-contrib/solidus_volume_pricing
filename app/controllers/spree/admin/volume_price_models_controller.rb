@@ -3,7 +3,7 @@
 module Spree
   module Admin
     class VolumePriceModelsController < ResourceController
-      before_action :load_volume_prices, only: [:new, :edit]
+      before_action :load_volume_prices, only: [:new, :edit] # rubocop:disable Rails/LexicallyScopedActionFilter
 
       private
 
