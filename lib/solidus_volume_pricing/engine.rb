@@ -18,14 +18,8 @@ module SolidusVolumePricing
     end
 
     def self.activate
-      Dir.glob(File.join(File.dirname(__FILE__), '../../app/**/*_decorator*.rb')).sort.each do |c|
-        Rails.configuration.cache_classes ? require(c) : load(c)
-        Rails.autoloaders.main.ignore(c) if Rails.autoloaders.zeitwerk_enabled?
-      end
       ::Spree::BackendConfiguration::CONFIGURATION_TABS << :volume_price_models
     end
-
-    config.to_prepare(&method(:activate).to_proc)
 
     # use rspec for tests
     config.generators do |g|
