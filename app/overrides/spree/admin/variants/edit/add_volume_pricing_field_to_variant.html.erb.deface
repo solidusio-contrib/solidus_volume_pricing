@@ -1,0 +1,3 @@
+<!-- insert_after '[data-hook="admin_variant_edit_form"]' -->
+
+<%= render 'spree/admin/variants/edit_fields', f: f %>
