@@ -23,7 +23,7 @@ when 'mysql'
 when 'postgresql'
   gem 'pg'
 else
-  gem 'sqlite3', '~> 1.4'
+  gem 'sqlite3', '~> 2.1'
 end
 
 # While we still support Ruby < 3 we need to workaround a limitation in
