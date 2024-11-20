@@ -8,7 +8,10 @@
     <%= f.select :discount_type, [
         [t('spree.total_price'), 'price'],
         [t('spree.percent_discount'), 'percent'],
-        [t('spree.price_discount'), 'dollar']
+        [t('spree.price_discount'), 'dollar'],
+        [t('spree.banded_total_price'), 'banded_price'],
+        [t('spree.banded_percent_discount'), 'banded_percent'],
+        [t('spree.banded_price_discount'), 'banded_dollar']
       ], { include_blank: true }, class: 'custom-select' %>
   </td>
   <td>

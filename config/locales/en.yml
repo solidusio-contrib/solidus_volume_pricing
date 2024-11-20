@@ -11,10 +11,13 @@ en:
     new_volume_price_model: New Volume Price Model
     volume_price_model_edit: Edit Volume Price Model
     volume_pricing: Volume Pricing
-    price_discount: Price Discount
-    percent_discount: Percent Discount
     bulk_discount: Bulk Discount
-    total_price: Total price
+    price_discount: Price Discount (All items)
+    percent_discount: Percent Discount (All items)
+    total_price: Total price (All items)
+    banded_price_discount: Price Discount (Banded)
+    banded_percent_discount: Percent Discount (Banded)
+    banded_total_price: Total price (Banded)
     admin:
       tab:
         volume_price_models: Volume Price Models

@@ -15,13 +15,21 @@ Each VolumePrice contains the following values:
 1. **Variant:** Each VolumePrice is associated with a _Variant_, which is used to link products to
    particular prices.
 2. **Name:** The human readable representation of the quantity range (Ex. 10-100). (Optional)
-3. **Discount Type** The type of discount to apply.  **Price:** sets price to the amount specified.
-     * **Dollar:** subtracts specified amount from the Variant price.
-     * **Percent:** subtracts the specified amounts percentage from the Variant price.
+3. **Discount Type** The type of discount to apply.
+     * **Price:** sets price to the amount specified for all items
+     * **Dollar:** subtracts specified amount from the Variant price for all items
+     * **Percent:** subtracts the specified amounts percentage from the Variant price for all items
+     * **Banded Price:** sets price to the amount specified, but only for items within the range. For items outside the range it will consult that band to determine price
+     * **Banded Dollar:** subtracts specified amount from the Variant price, but only for items within the range. For items outside the range it will consult that band to determine price
+     * **Banded Percent:** subtracts the specified amounts percentage from the Variant price, but only for items within the range. For items outside the range it will consult that band to determine price
 4. **Range:** The quantity range for which the price is valid (See Below for Examples of Valid
    Ranges.)
 5. **Amount:** The price of the product if the line item quantity falls within the specified range.
 6. **Position:** Integer value for `acts_as_list` (Helps keep the volume prices in a defined order.)
+
+Note: when using percentage based or banded discounts then first the system will calculate a per-item price, and then get the total by multiplying the per-item price with the quantity. Due to rounding this can differ if the price would have been calculated on the total.
+
+Example: Percent discount is 10%, Original price is 9.99, Ordering 100 pieces. Per-item price is rounded down to $8.99 (from $8.991), so total will be $899.00 instead of $899.10
 
 ## Install
 
@@ -99,12 +107,68 @@ Cart Contents:
 | ------- | -------- | ----- | ----- |
 | Rails T-Shirt | 20 | 17.99 | 359.80 |
 
-## Additional Notes
+## Banded Examples
 
-* The volume price is applied based on the total quantity ordered for a particular variant. It does
-  not apply different prices for the portion of the quantity that falls within a particular range.
-  Only the one price is used (although this would be an interesting configurable option if someone
-  wanted to write a patch.)
+Consider the following examples of volume prices:
+
+| Variant | Name | Type | Range | Amount | Position |
+| ------- | ---- | ---- | ----- | ------ | -------- |
+| Rails T-Shirt | 1-5 | Price | (1..5) | 19.99 | 1 |
+| Rails T-Shirt | 6-9 | Price | (6...10) | 18.99 | 2 |
+| Rails T-Shirt | 10-19 | Banded Percent | (10-19) | 50% | 3 |
+| Rails T-Shirt | 20 or more | Banded Percent | (20+) | 75% | 4 |
+
+### Example 1
+
+Cart Contents:
+
+| Product | Quantity | Price | Total |
+| ------- | -------- | ----- | ----- |
+| Rails T-Shirt | 1 | 19.99 | 19.99 |
+
+### Example 2
+
+Cart Contents:
+
+| Product | Quantity | Price | Total |
+| ------- | -------- | ----- | ----- |
+| Rails T-Shirt | 5 | 19.99 | 99.95 |
+
+### Example 3
+
+Cart Contents:
+
+| Product | Quantity | Price | Total |
+| ------- | -------- | ----- | ----- |
+| Rails T-Shirt | 6 | 18.99 | 113.94 |
+
+### Example 4
+
+Cart Contents:
+
+| Product | Quantity | Price | Total |
+| ------- | -------- | ----- | ----- |
+| Rails T-Shirt | 10 | 18.09 | 180.90 |
+
+Items #1-9 will be priced according to the `(5..9)` rule as it is unbanded. Their price will be $170.91
+
+Item #10 will be priced according to the `(10+)` rule, which describes a 50% reduction to the base price, which is $9.99 (rounded down)
+
+### Example 5
+
+Cart Contents:
+
+| Product | Quantity | Price | Total |
+| ------- | -------- | ----- | ----- |
+| Rails T-Shirt | 20 | 13.79 | 275.80 |
+
+Items #1-9 will be priced according to the `(5..9)` rule as it is unbanded. Their price will be $170.91
+
+Items #10-19 will be priced according to the `(10-19)` rule, which describes a 50% reduction to the base price. This equates to $9.99 per item (rounded down)
+
+Item #20 will be priced according to the `(20+)` rule, which describes a 75% reduction to the base price. This would be $4.99 (rounded down)
+
+A per-item price of $13.79 is calculated (rounded down from $13.792875), then multiplied by the quantity getting $275.80. Note: this is $0.05 lower than what you would get if you total up the items separately, see notes above.
 
 ## License
 

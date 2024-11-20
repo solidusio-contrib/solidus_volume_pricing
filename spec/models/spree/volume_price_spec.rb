@@ -11,7 +11,10 @@ RSpec.describe Spree::VolumePrice, type: :model do
   it { is_expected.to validate_presence_of(:discount_type) }
   it { is_expected.to validate_presence_of(:amount) }
 
-  it { is_expected.to validate_inclusion_of(:discount_type).in_array(%w[price dollar percent]) }
+  it {
+    expect(subject).to validate_inclusion_of(:discount_type).in_array(%w[price dollar percent banded_price banded_dollar
+                                                                         banded_percent])
+  }
 
   describe '.for_variant' do
     subject { described_class.for_variant(variant, user: user) }

@@ -13,7 +13,7 @@ RSpec.describe 'Managing volume price models', type: :system do
     fill_in 'Name', with: 'Discount'
     within '#volume_prices' do
       fill_in 'volume_price_model_volume_prices_attributes_0_name', with: '5 pieces discount'
-      select 'Total price', from: 'volume_price_model_volume_prices_attributes_0_discount_type'
+      select 'Total price (All items)', from: 'volume_price_model_volume_prices_attributes_0_discount_type'
       fill_in 'volume_price_model_volume_prices_attributes_0_range', with: '1..5'
       fill_in 'volume_price_model_volume_prices_attributes_0_amount', with: '1'
     end

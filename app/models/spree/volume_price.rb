@@ -11,7 +11,7 @@ module Spree
     validates :discount_type,
       presence: true,
       inclusion: {
-        in: %w(price dollar percent)
+        in: %w(price dollar percent banded_price banded_dollar banded_percent)
       }
 
     validate :range_format
@@ -31,6 +31,7 @@ module Spree
     end
 
     delegate :include?, to: :range_from_string
+    delegate :begin, to: :range_from_string
 
     def display_range
       range.gsub(/\.+/, "-").gsub(/\(|\)/, '')
