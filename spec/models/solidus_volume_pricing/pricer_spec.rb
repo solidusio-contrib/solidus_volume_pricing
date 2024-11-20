@@ -222,6 +222,55 @@ RSpec.describe SolidusVolumePricing::Pricer do
       end
     end
 
+    context 'discount_type is banded' do
+      before do
+        variant.volume_prices.create!(amount: 7, discount_type: 'price', range: '(10...20)')
+        variant.volume_prices.create!(amount: 4, discount_type: 'banded_dollar', range: '(20...30)')
+        variant.volume_prices.create!(amount: 0.5, discount_type: 'banded_percent', range: '(30...40)')
+        variant.volume_prices.create!(amount: 1, discount_type: 'banded_price', range: '(40+)')
+      end
+
+      context 'when quantity does not match the range' do
+        it_behaves_like 'having the variant price'
+      end
+
+      context 'when quantity matches the first (dollar) band' do
+        let(:quantity) { 25 }
+
+        it 'uses discount based calculation, but for the quantity inside the band only' do
+          # Pre-band: 19 * 7.00 +
+          #   Band 1: 6 * (10.00 - 4.00)
+          # Divided by 25
+          expect(subject).to eq('$6.76')
+        end
+      end
+
+      context 'when quantity matches the second (percent) band' do
+        let(:quantity) { 35 }
+
+        it 'uses percent based calculation, but for the quantity inside the band only' do
+          # Pre-band: 19 * 7.00 +
+          #   Band 1: 10 * (10.00 - 4.00) +
+          #   Band 2: 6 * (10.00 * 0.5)
+          # Divided by 35
+          expect(subject).to eq('$6.37')
+        end
+      end
+
+      context 'when quantity matches the third (price) band' do
+        let(:quantity) { 45 }
+
+        it 'uses the set volume price, but for the quantity inside the band only' do
+          # Pre-band: 19 * 7.00 +
+          #   Band 1: 10 * (10.00 - 4.00) +
+          #   Band 2: 10 * (10.00 * 0.5) +
+          #   Band 3: 6 * 1.00
+          # Divided by 45
+          expect(subject).to eq('$5.53')
+        end
+      end
+    end
+
     context 'discount_type is unknown' do
       before do
         variant.volume_prices.create(amount: 7, discount_type: 'foo', range: '(10+)')

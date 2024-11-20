@@ -13,7 +13,7 @@ RSpec.describe 'Managing volume prices' do
     expect(page).to have_content('Volume Prices')
 
     fill_in 'variant_volume_prices_attributes_0_name', with: '5 pieces discount'
-    select 'Total price', from: 'variant_volume_prices_attributes_0_discount_type'
+    select 'Total price (All items)', from: 'variant_volume_prices_attributes_0_discount_type'
     fill_in 'variant_volume_prices_attributes_0_range', with: '1..5'
     fill_in 'variant_volume_prices_attributes_0_amount', with: '1'
     click_on 'Update'

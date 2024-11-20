@@ -6,7 +6,10 @@ module SolidusVolumePricing
       def set_pricing_attributes
         if quantity_changed?
           options = SolidusVolumePricing::PricingOptions.from_line_item(self)
-          self.money_price = SolidusVolumePricing::Pricer.new(variant).price_for(options)
+          pricer = SolidusVolumePricing::Pricer.new(variant)
+          if pricer.volume_pricing?(options)
+            self.money_price = pricer.price_for(options)
+          end
         end
 
         super
