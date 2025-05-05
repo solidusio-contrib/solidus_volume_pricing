@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'spree/core'
-require 'solidus_support'
+require "spree/core"
+require "solidus_support"
 
 module SolidusVolumePricing
   class Engine < Rails::Engine
@@ -9,16 +9,16 @@ module SolidusVolumePricing
 
     isolate_namespace ::Spree
 
-    engine_name 'solidus_volume_pricing'
+    engine_name "solidus_volume_pricing"
 
-    initializer 'solidus_volume_pricing.preferences', before: 'spree.environment' do
+    initializer "solidus_volume_pricing.preferences", before: "spree.environment" do
       ::Spree::AppConfiguration.class_eval do
         preference :use_master_variant_volume_pricing, :boolean, default: false
       end
     end
 
     if SolidusSupport.backend_available?
-      initializer 'solidus_volume_pricing.admin_menu_item', after: 'solidus_volume_pricing.preferences' do
+      initializer "solidus_volume_pricing.admin_menu_item", after: "solidus_volume_pricing.preferences" do
         Spree::Backend::Config.configure do |config|
           settings_menu_item = config.menu_items.detect { |mi| mi.label == :settings }
 

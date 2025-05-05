@@ -2,33 +2,33 @@
 
 RSpec.describe Spree::VolumePrice, type: :model do
   let(:volume_price) do
-    described_class.new(variant: Spree::Variant.new, amount: 10, discount_type: 'price')
+    described_class.new(variant: Spree::Variant.new, amount: 10, discount_type: "price")
   end
 
   it { is_expected.to belong_to(:variant).touch(true).optional }
   it { is_expected.to belong_to(:volume_price_model).touch(true).optional }
-  it { is_expected.to belong_to(:spree_role).class_name('Spree::Role').with_foreign_key('role_id').optional }
+  it { is_expected.to belong_to(:spree_role).class_name("Spree::Role").with_foreign_key("role_id").optional }
   it { is_expected.to validate_presence_of(:discount_type) }
   it { is_expected.to validate_presence_of(:amount) }
 
   it { is_expected.to validate_inclusion_of(:discount_type).in_array(%w[price dollar percent]) }
 
-  describe '.for_variant' do
+  describe ".for_variant" do
     subject { described_class.for_variant(variant, user: user) }
 
     let(:user) { nil }
     let(:variant) { create(:variant) }
     let!(:volume_prices) { create_list(:volume_price, 2, variant: variant) }
 
-    context 'if no user is given' do
-      it 'returns all volume prices for given variant that are not related to a specific role' do
+    context "if no user is given" do
+      it "returns all volume prices for given variant that are not related to a specific role" do
         expect(subject).to eq(volume_prices)
       end
     end
 
-    context 'if user is given' do
+    context "if user is given" do
       let(:role) do
-        create(:role, name: 'merchant')
+        create(:role, name: "merchant")
       end
 
       let(:user) do
@@ -39,36 +39,36 @@ RSpec.describe Spree::VolumePrice, type: :model do
         create_list(:volume_price, 2, variant: variant, role_id: role.id)
       end
 
-      context 'whose role matches' do
+      context "whose role matches" do
         before do
           user.spree_roles = [role]
         end
 
-        it 'returns role specific volume prices' do
+        it "returns role specific volume prices" do
           expect(subject).to include(*volume_prices_for_user_role)
         end
 
-        it 'returns non-role specific volume prices' do
+        it "returns non-role specific volume prices" do
           expect(subject).to include(*volume_prices)
         end
       end
 
-      context 'whose role does not match' do
+      context "whose role does not match" do
         before do
           user.spree_roles = []
         end
 
-        it 'does not include role specific volume prices' do
+        it "does not include role specific volume prices" do
           expect(subject).not_to include(*volume_prices_for_user_role)
         end
 
-        it 'returns non-role specific volume prices' do
+        it "returns non-role specific volume prices" do
           expect(subject).to include(*volume_prices)
         end
       end
     end
 
-    context 'if volume prices are not related to the variant but to a volume price model' do
+    context "if volume prices are not related to the variant but to a volume price model" do
       let(:volume_price_model) do
         create(:volume_price_model)
       end
@@ -77,102 +77,102 @@ RSpec.describe Spree::VolumePrice, type: :model do
         create_list(:volume_price, 2, volume_price_model: volume_price_model, variant: nil)
       end
 
-      context 'and these volume prices are also related to the given variant' do
+      context "and these volume prices are also related to the given variant" do
         let(:variant) do
           create(:variant, volume_price_models: [volume_price_model])
         end
 
-        it 'includes these volume prices' do
+        it "includes these volume prices" do
           expect(subject).to include(*volume_prices_from_model)
         end
       end
 
-      context 'and these volume prices are not related to the given variant' do
-        it 'does not include these volume prices' do
+      context "and these volume prices are not related to the given variant" do
+        it "does not include these volume prices" do
           expect(subject).not_to include(*volume_prices_from_model)
         end
       end
     end
   end
 
-  describe 'valid range format' do
-    it 'requires the presence of a variant' do
+  describe "valid range format" do
+    it "requires the presence of a variant" do
       volume_price.variant = nil
       expect(volume_price).not_to be_valid
     end
 
-    it 'consider a range of (1..2) to be valid' do
-      volume_price.range = '(1..2)'
+    it "consider a range of (1..2) to be valid" do
+      volume_price.range = "(1..2)"
       expect(volume_price).to be_valid
     end
 
-    it 'consider a range of (1...2) to be valid' do
-      volume_price.range = '(1...2)'
+    it "consider a range of (1...2) to be valid" do
+      volume_price.range = "(1...2)"
       expect(volume_price).to be_valid
     end
 
-    it 'consider a range of 1..2 to be valid' do
-      volume_price.range = '1..2'
+    it "consider a range of 1..2 to be valid" do
+      volume_price.range = "1..2"
       expect(volume_price).to be_valid
     end
 
-    it 'consider a range of 1...2 to be valid' do
-      volume_price.range = '1...2'
+    it "consider a range of 1...2 to be valid" do
+      volume_price.range = "1...2"
       expect(volume_price).to be_valid
     end
 
-    it 'consider a range of (10+) to be valid' do
-      volume_price.range = '(10+)'
+    it "consider a range of (10+) to be valid" do
+      volume_price.range = "(10+)"
       expect(volume_price).to be_valid
     end
 
-    it 'consider a range of 10+ to be valid' do
-      volume_price.range = '10+'
+    it "consider a range of 10+ to be valid" do
+      volume_price.range = "10+"
       expect(volume_price).to be_valid
     end
 
-    it 'does not consider a range of 1-2 to valid' do
-      volume_price.range = '1-2'
+    it "does not consider a range of 1-2 to valid" do
+      volume_price.range = "1-2"
       expect(volume_price).not_to be_valid
     end
 
-    it 'does not consider a range of 1 to valid' do
-      volume_price.range = '1'
+    it "does not consider a range of 1 to valid" do
+      volume_price.range = "1"
       expect(volume_price).not_to be_valid
     end
 
-    it 'does not consider a range of foo to valid' do
-      volume_price.range = 'foo'
+    it "does not consider a range of foo to valid" do
+      volume_price.range = "foo"
       expect(volume_price).not_to be_valid
     end
   end
 
-  describe 'display_range' do
+  describe "display_range" do
     subject(:display_range) { volume_price.display_range }
 
     let(:volume_price) { described_class.new(range: range) }
 
-    context 'with parens' do
-      let(:range) { '(48+)' }
+    context "with parens" do
+      let(:range) { "(48+)" }
 
-      it { is_expected.to eq('48+') }
+      it { is_expected.to eq("48+") }
     end
 
-    context 'with range dots' do
-      let(:range) { '1..3' }
+    context "with range dots" do
+      let(:range) { "1..3" }
 
-      it { is_expected.to eq('1-3') }
+      it { is_expected.to eq("1-3") }
     end
 
-    context 'with range dots and parens' do
-      let(:range) { '(1..3)' }
+    context "with range dots and parens" do
+      let(:range) { "(1..3)" }
 
-      it { is_expected.to eq('1-3') }
+      it { is_expected.to eq("1-3") }
     end
   end
 
-  describe 'include?' do
-    ['10..20', '(10..20)'].each do |range|
+  describe "include?" do
+    ["10..20", "(10..20)"].each do |range|
       it "does not match a quantity that fails to fall within the specified range of #{range}" do
         volume_price.range = range
         expect(volume_price).not_to include(21)
@@ -183,20 +183,20 @@ RSpec.describe Spree::VolumePrice, type: :model do
         expect(volume_price).to include(12)
       end
 
-      it 'matches the upper bound of ranges that include the upper bound' do
+      it "matches the upper bound of ranges that include the upper bound" do
         volume_price.range = range
         expect(volume_price).to include(20)
       end
     end
 
-    ['10...20', '(10...20)'].each do |range|
-      it 'does not match the upper bound for ranges that exclude the upper bound' do
+    ["10...20", "(10...20)"].each do |range|
+      it "does not match the upper bound for ranges that exclude the upper bound" do
         volume_price.range = range
         expect(volume_price).not_to include(20)
       end
     end
 
-    ['50+', '(50+)'].each do |range|
+    ["50+", "(50+)"].each do |range|
       it "matches a quantity that exceeds the value of an open ended range of #{range}" do
         volume_price.range = range
         expect(volume_price).to include(51)
