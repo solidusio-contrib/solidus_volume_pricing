@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'shoulda-matchers'
+require "shoulda-matchers"
 
 # From: https://github.com/thoughtbot/shoulda-matchers/issues/384
 Shoulda::Matchers.configure do |config|
