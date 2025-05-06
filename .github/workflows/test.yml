@@ -25,6 +25,7 @@ jobs:
         rails-version:
           - "7.1"
           - "7.2"
+          - "8.0"
         ruby-version:
           - "3.1"
           - "3.4"
@@ -32,6 +33,7 @@ jobs:
           - "v4.2"
           - "v4.3"
           - "v4.4"
+          - "v4.5"
           - "main"
         database:
           - "postgresql"
@@ -48,6 +50,14 @@ jobs:
             solidus-branch: "v4.2"
           - rails-version: "7.1"
             solidus-branch: "v4.1"
+          - rails-version: "8.0"
+            solidus-branch: "v4.2"
+          - rails-version: "8.0"
+            solidus-branch: "v4.3"
+          - rails-version: "8.0"
+            solidus-branch: "v4.4"
+          - rails-version: "8.0"
+            ruby-version: "3.1"
 
     steps:
       - uses: actions/checkout@v4
