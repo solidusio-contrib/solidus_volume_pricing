@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Managing volume price models', type: :system do
+RSpec.describe 'Managing volume price models' do
   stub_authorization!
 
   it 'an admin can create and remove volume price models', :js do
