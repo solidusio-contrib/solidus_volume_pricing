@@ -31,6 +31,8 @@ end
 # resolve gems based on the required ruby version.
 gem "async", "< 3" if Gem::Version.new(RUBY_VERSION) < Gem::Version.new("3")
 
+gem "solidus_dev_support", github: "mamhoff/solidus_dev_support", branch: "standardrb"
+
 gemspec
 
 # Use a local Gemfile to include development dependencies that might not be
