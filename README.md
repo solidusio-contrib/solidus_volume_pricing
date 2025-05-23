@@ -1,6 +1,6 @@
 # Volume Pricing
 
-[![CircleCI](https://circleci.com/gh/solidusio-contrib/solidus_volume_pricing.svg?style=svg)](https://circleci.com/gh/solidusio-contrib/solidus_volume_pricing)
+[![Test](https://github.com/solidusio-contrib/solidus_volume_pricing/actions/workflows/test.yml/badge.svg)](https://github.com/solidusio-contrib/solidus_volume_pricing/actions/workflows/test.yml)
 [![Code Climate](https://codeclimate.com/github/solidusio-contrib/solidus_volume_pricing/badges/gpa.svg)](https://codeclimate.com/github/solidusio-contrib/solidus_volume_pricing)
 
 Volume Pricing is an extension to Solidus that uses predefined ranges of quantities to determine the
