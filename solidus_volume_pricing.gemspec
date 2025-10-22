@@ -30,7 +30,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "solidus_backend", [">= 4.0", "< 5"]
   spec.add_dependency "solidus_core", [">= 4.0", "< 5"]
-  spec.add_dependency "solidus_support", "~> 0.8"
+  spec.add_dependency "solidus_support", [">= 0.15.0", "< 1"]
   spec.add_dependency "coffee-rails"
   spec.add_dependency "deface"
   spec.add_dependency "sassc-rails"
