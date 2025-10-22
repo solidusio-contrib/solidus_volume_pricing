@@ -29,11 +29,6 @@ else
   gem "sqlite3", sqlite_version
 end
 
-# While we still support Ruby < 3 we need to workaround a limitation in
-# the 'async' gem that relies on the latest ruby, since RubyGems doesn't
-# resolve gems based on the required ruby version.
-gem "async", "< 3" if Gem::Version.new(RUBY_VERSION) < Gem::Version.new("3")
-
 # Use a local Gemfile to include development dependencies that might not be
 # relevant for the project or for other contributors, e.g. pry-byebug.
 #
