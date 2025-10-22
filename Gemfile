@@ -3,6 +3,8 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
+gemspec
+
 branch = ENV.fetch("SOLIDUS_BRANCH", "v4.6")
 gem "solidus", github: "solidusio/solidus", branch: branch
 
@@ -31,8 +33,6 @@ end
 # the 'async' gem that relies on the latest ruby, since RubyGems doesn't
 # resolve gems based on the required ruby version.
 gem "async", "< 3" if Gem::Version.new(RUBY_VERSION) < Gem::Version.new("3")
-
-gemspec
 
 # Use a local Gemfile to include development dependencies that might not be
 # relevant for the project or for other contributors, e.g. pry-byebug.
