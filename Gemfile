@@ -3,13 +3,13 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-branch = ENV.fetch("SOLIDUS_BRANCH", "main")
+branch = ENV.fetch("SOLIDUS_BRANCH", "v4.6")
 gem "solidus", github: "solidusio/solidus", branch: branch
 
 # The solidus_frontend gem has been pulled out since v3.2
 gem "solidus_frontend"
 
-rails_requirement_string = ENV.fetch("RAILS_VERSION", "~> 7.0")
+rails_requirement_string = ENV.fetch("RAILS_VERSION", "~> 8.0")
 gem "rails", rails_requirement_string
 
 # Provides basic authentication functionality for testing parts of your engine
