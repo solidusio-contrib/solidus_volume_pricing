@@ -2,13 +2,15 @@
 
 module SolidusVolumePricing
   module SpreeLineItemPatch
-    def set_pricing_attributes
-      if quantity_changed?
-        options = SolidusVolumePricing::PricingOptions.from_line_item(self)
-        self.money_price = SolidusVolumePricing::Pricer.new(variant).price_for(options)
-      end
+    def self.prepended(base)
+      base.before_validation :set_volume_pricing_attributes, if: :quantity_changed?
+    end
 
-      super
+    private
+
+    def set_volume_pricing_attributes
+      options = SolidusVolumePricing::PricingOptions.from_line_item(self)
+      self.money_price = SolidusVolumePricing::Pricer.new(variant).price_for(options)
     end
 
     ::Spree::LineItem.prepend self
